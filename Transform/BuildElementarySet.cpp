@@ -91,8 +91,9 @@ void BuildClosure(Node *node, std::set<Node *> &closure,
 }
 
 std::vector<std::vector<Node *>>
-GetElementSet(const std::set<Node *> &closure) {
-  std::vector<std::pair<Node *, Node *>> pairs;
+GetElementSet(const std::set<Node *> &closure,
+              std::vector<std::pair<Node *, Node *>> &pairs) {
+
   std::vector<std::vector<Node *>> elementary_set;
   Node *true_node = nullptr;
   Node *false_node = nullptr;

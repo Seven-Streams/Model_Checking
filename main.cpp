@@ -1,4 +1,7 @@
 #include "MCInclude.h"
+#include "Transform/NBA.h"
+#include <utility>
+#include <vector>
 using namespace antlr4;
 
 int main() {
@@ -37,7 +40,8 @@ int main() {
   ts_parser.Print();
   ap.clear();
   grammar::BuildClosure(output, closure, hashs);
-  auto element_set = grammar::GetElementSet(closure);
+  std::vector<std::pair<grammar::Node *, grammar::Node*>> pairs;
+  auto element_set = grammar::GetElementSet(closure, pairs);
   for (const auto &i : element_set) {
     for (const auto &j : i) {
       j->print();
@@ -45,5 +49,7 @@ int main() {
     }
     std::cout << std::endl;
   }
+  grammar::GNBA gnba(element_set, output, pairs);
+  gnba.print();
   return 0;
 }

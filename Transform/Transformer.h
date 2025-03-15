@@ -22,5 +22,7 @@ void BuildClosure(Node *node, std::set<Node *> &closure,
 
 // This function should be called after BuildClosure.
 // This function will return all the elmentary sets of the closure.
-std::vector<std::vector<Node *>> GetElementSet(const std::set<Node *> &closure);
+std::vector<std::vector<Node *>>
+GetElementSet(const std::set<Node *> &closure,
+              std::vector<std::pair<Node *, Node *>> &pairs);
 } // namespace grammar
