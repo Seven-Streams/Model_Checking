@@ -1,5 +1,5 @@
 
-// Generated from LTL.g4 by ANTLR 4.7.1
+// Generated from LTL.g4 by ANTLR 4.13.2
 
 #pragma once
 
@@ -19,27 +19,27 @@ public:
   /**
    * Visit parse trees produced by LTLParser.
    */
-    virtual antlrcpp::Any visitNot(LTLParser::NotContext *context) = 0;
+    virtual std::any visitNot(LTLParser::NotContext *context) = 0;
 
-    virtual antlrcpp::Any visitParenthesis(LTLParser::ParenthesisContext *context) = 0;
+    virtual std::any visitParenthesis(LTLParser::ParenthesisContext *context) = 0;
 
-    virtual antlrcpp::Any visitDisjunction(LTLParser::DisjunctionContext *context) = 0;
+    virtual std::any visitDisjunction(LTLParser::DisjunctionContext *context) = 0;
 
-    virtual antlrcpp::Any visitNext(LTLParser::NextContext *context) = 0;
+    virtual std::any visitNext(LTLParser::NextContext *context) = 0;
 
-    virtual antlrcpp::Any visitEventually(LTLParser::EventuallyContext *context) = 0;
+    virtual std::any visitEventually(LTLParser::EventuallyContext *context) = 0;
 
-    virtual antlrcpp::Any visitConjunction(LTLParser::ConjunctionContext *context) = 0;
+    virtual std::any visitConjunction(LTLParser::ConjunctionContext *context) = 0;
 
-    virtual antlrcpp::Any visitTrue(LTLParser::TrueContext *context) = 0;
+    virtual std::any visitTrue(LTLParser::TrueContext *context) = 0;
 
-    virtual antlrcpp::Any visitAlways(LTLParser::AlwaysContext *context) = 0;
+    virtual std::any visitAlways(LTLParser::AlwaysContext *context) = 0;
 
-    virtual antlrcpp::Any visitFalse(LTLParser::FalseContext *context) = 0;
+    virtual std::any visitFalse(LTLParser::FalseContext *context) = 0;
 
-    virtual antlrcpp::Any visitImplication(LTLParser::ImplicationContext *context) = 0;
+    virtual std::any visitImplication(LTLParser::ImplicationContext *context) = 0;
 
-    virtual antlrcpp::Any visitUntil(LTLParser::UntilContext *context) = 0;
+    virtual std::any visitUntil(LTLParser::UntilContext *context) = 0;
 
 
 };

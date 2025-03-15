@@ -1,5 +1,5 @@
 
-// Generated from LTL.g4 by ANTLR 4.7.1
+// Generated from LTL.g4 by ANTLR 4.13.2
 
 
 #include "LTLVisitor.h"
@@ -8,14 +8,103 @@
 
 
 using namespace antlrcpp;
+
 using namespace antlr4;
 
-LTLParser::LTLParser(TokenStream *input) : Parser(input) {
-  _interpreter = new atn::ParserATNSimulator(this, _atn, _decisionToDFA, _sharedContextCache);
+namespace {
+
+struct LTLParserStaticData final {
+  LTLParserStaticData(std::vector<std::string> ruleNames,
+                        std::vector<std::string> literalNames,
+                        std::vector<std::string> symbolicNames)
+      : ruleNames(std::move(ruleNames)), literalNames(std::move(literalNames)),
+        symbolicNames(std::move(symbolicNames)),
+        vocabulary(this->literalNames, this->symbolicNames) {}
+
+  LTLParserStaticData(const LTLParserStaticData&) = delete;
+  LTLParserStaticData(LTLParserStaticData&&) = delete;
+  LTLParserStaticData& operator=(const LTLParserStaticData&) = delete;
+  LTLParserStaticData& operator=(LTLParserStaticData&&) = delete;
+
+  std::vector<antlr4::dfa::DFA> decisionToDFA;
+  antlr4::atn::PredictionContextCache sharedContextCache;
+  const std::vector<std::string> ruleNames;
+  const std::vector<std::string> literalNames;
+  const std::vector<std::string> symbolicNames;
+  const antlr4::dfa::Vocabulary vocabulary;
+  antlr4::atn::SerializedATNView serializedATN;
+  std::unique_ptr<antlr4::atn::ATN> atn;
+};
+
+::antlr4::internal::OnceFlag ltlParserOnceFlag;
+#if ANTLR4_USE_THREAD_LOCAL_CACHE
+static thread_local
+#endif
+std::unique_ptr<LTLParserStaticData> ltlParserStaticData = nullptr;
+
+void ltlParserInitialize() {
+#if ANTLR4_USE_THREAD_LOCAL_CACHE
+  if (ltlParserStaticData != nullptr) {
+    return;
+  }
+#else
+  assert(ltlParserStaticData == nullptr);
+#endif
+  auto staticData = std::make_unique<LTLParserStaticData>(
+    std::vector<std::string>{
+      "formula"
+    },
+    std::vector<std::string>{
+      "", "'('", "')'", "'F'", "'G'", "'X'", "'U'", "'!'", "'/\\'", "'\\/'", 
+      "'->'", "'true'", "'false'"
+    },
+    std::vector<std::string>{
+      "", "", "", "EVENTUALLY", "ALWAYS", "NEXT", "UNTIL", "NOT", "CONJUNCTION", 
+      "DISJUNCTION", "IMPLICATION", "TRUE", "FALSE", "ATOM", "WS"
+    }
+  );
+  static const int32_t serializedATNSegment[] = {
+  	4,1,14,37,2,0,7,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,
+  	1,0,1,0,3,0,18,8,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,5,
+  	0,32,8,0,10,0,12,0,35,9,0,1,0,0,1,0,1,0,0,0,45,0,17,1,0,0,0,2,3,6,0,-1,
+  	0,3,4,5,7,0,0,4,18,3,0,0,11,5,6,5,4,0,0,6,18,3,0,0,10,7,8,5,3,0,0,8,18,
+  	3,0,0,9,9,10,5,5,0,0,10,18,3,0,0,8,11,18,5,11,0,0,12,18,5,12,0,0,13,14,
+  	5,1,0,0,14,15,3,0,0,0,15,16,5,2,0,0,16,18,1,0,0,0,17,2,1,0,0,0,17,5,1,
+  	0,0,0,17,7,1,0,0,0,17,9,1,0,0,0,17,11,1,0,0,0,17,12,1,0,0,0,17,13,1,0,
+  	0,0,18,33,1,0,0,0,19,20,10,7,0,0,20,21,5,6,0,0,21,32,3,0,0,8,22,23,10,
+  	6,0,0,23,24,5,10,0,0,24,32,3,0,0,7,25,26,10,5,0,0,26,27,5,9,0,0,27,32,
+  	3,0,0,6,28,29,10,4,0,0,29,30,5,8,0,0,30,32,3,0,0,5,31,19,1,0,0,0,31,22,
+  	1,0,0,0,31,25,1,0,0,0,31,28,1,0,0,0,32,35,1,0,0,0,33,31,1,0,0,0,33,34,
+  	1,0,0,0,34,1,1,0,0,0,35,33,1,0,0,0,3,17,31,33
+  };
+  staticData->serializedATN = antlr4::atn::SerializedATNView(serializedATNSegment, sizeof(serializedATNSegment) / sizeof(serializedATNSegment[0]));
+
+  antlr4::atn::ATNDeserializer deserializer;
+  staticData->atn = deserializer.deserialize(staticData->serializedATN);
+
+  const size_t count = staticData->atn->getNumberOfDecisions();
+  staticData->decisionToDFA.reserve(count);
+  for (size_t i = 0; i < count; i++) { 
+    staticData->decisionToDFA.emplace_back(staticData->atn->getDecisionState(i), i);
+  }
+  ltlParserStaticData = std::move(staticData);
+}
+
+}
+
+LTLParser::LTLParser(TokenStream *input) : LTLParser(input, antlr4::atn::ParserATNSimulatorOptions()) {}
+
+LTLParser::LTLParser(TokenStream *input, const antlr4::atn::ParserATNSimulatorOptions &options) : Parser(input) {
+  LTLParser::initialize();
+  _interpreter = new atn::ParserATNSimulator(this, *ltlParserStaticData->atn, ltlParserStaticData->decisionToDFA, ltlParserStaticData->sharedContextCache, options);
 }
 
 LTLParser::~LTLParser() {
   delete _interpreter;
+}
+
+const atn::ATN& LTLParser::getATN() const {
+  return *ltlParserStaticData->atn;
 }
 
 std::string LTLParser::getGrammarFileName() const {
@@ -23,11 +112,15 @@ std::string LTLParser::getGrammarFileName() const {
 }
 
 const std::vector<std::string>& LTLParser::getRuleNames() const {
-  return _ruleNames;
+  return ltlParserStaticData->ruleNames;
 }
 
-dfa::Vocabulary& LTLParser::getVocabulary() const {
-  return _vocabulary;
+const dfa::Vocabulary& LTLParser::getVocabulary() const {
+  return ltlParserStaticData->vocabulary;
+}
+
+antlr4::atn::SerializedATNView LTLParser::getSerializedATN() const {
+  return ltlParserStaticData->serializedATN;
 }
 
 
@@ -58,7 +151,8 @@ LTLParser::FormulaContext* LTLParser::NotContext::formula() {
 
 LTLParser::NotContext::NotContext(FormulaContext *ctx) { copyFrom(ctx); }
 
-antlrcpp::Any LTLParser::NotContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any LTLParser::NotContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<LTLVisitor*>(visitor))
     return parserVisitor->visitNot(this);
   else
@@ -72,7 +166,8 @@ LTLParser::FormulaContext* LTLParser::ParenthesisContext::formula() {
 
 LTLParser::ParenthesisContext::ParenthesisContext(FormulaContext *ctx) { copyFrom(ctx); }
 
-antlrcpp::Any LTLParser::ParenthesisContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any LTLParser::ParenthesisContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<LTLVisitor*>(visitor))
     return parserVisitor->visitParenthesis(this);
   else
@@ -94,7 +189,8 @@ tree::TerminalNode* LTLParser::DisjunctionContext::DISJUNCTION() {
 
 LTLParser::DisjunctionContext::DisjunctionContext(FormulaContext *ctx) { copyFrom(ctx); }
 
-antlrcpp::Any LTLParser::DisjunctionContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any LTLParser::DisjunctionContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<LTLVisitor*>(visitor))
     return parserVisitor->visitDisjunction(this);
   else
@@ -112,7 +208,8 @@ LTLParser::FormulaContext* LTLParser::NextContext::formula() {
 
 LTLParser::NextContext::NextContext(FormulaContext *ctx) { copyFrom(ctx); }
 
-antlrcpp::Any LTLParser::NextContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any LTLParser::NextContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<LTLVisitor*>(visitor))
     return parserVisitor->visitNext(this);
   else
@@ -130,7 +227,8 @@ LTLParser::FormulaContext* LTLParser::EventuallyContext::formula() {
 
 LTLParser::EventuallyContext::EventuallyContext(FormulaContext *ctx) { copyFrom(ctx); }
 
-antlrcpp::Any LTLParser::EventuallyContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any LTLParser::EventuallyContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<LTLVisitor*>(visitor))
     return parserVisitor->visitEventually(this);
   else
@@ -152,7 +250,8 @@ tree::TerminalNode* LTLParser::ConjunctionContext::CONJUNCTION() {
 
 LTLParser::ConjunctionContext::ConjunctionContext(FormulaContext *ctx) { copyFrom(ctx); }
 
-antlrcpp::Any LTLParser::ConjunctionContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any LTLParser::ConjunctionContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<LTLVisitor*>(visitor))
     return parserVisitor->visitConjunction(this);
   else
@@ -166,7 +265,8 @@ tree::TerminalNode* LTLParser::TrueContext::TRUE() {
 
 LTLParser::TrueContext::TrueContext(FormulaContext *ctx) { copyFrom(ctx); }
 
-antlrcpp::Any LTLParser::TrueContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any LTLParser::TrueContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<LTLVisitor*>(visitor))
     return parserVisitor->visitTrue(this);
   else
@@ -184,7 +284,8 @@ LTLParser::FormulaContext* LTLParser::AlwaysContext::formula() {
 
 LTLParser::AlwaysContext::AlwaysContext(FormulaContext *ctx) { copyFrom(ctx); }
 
-antlrcpp::Any LTLParser::AlwaysContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any LTLParser::AlwaysContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<LTLVisitor*>(visitor))
     return parserVisitor->visitAlways(this);
   else
@@ -198,7 +299,8 @@ tree::TerminalNode* LTLParser::FalseContext::FALSE() {
 
 LTLParser::FalseContext::FalseContext(FormulaContext *ctx) { copyFrom(ctx); }
 
-antlrcpp::Any LTLParser::FalseContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any LTLParser::FalseContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<LTLVisitor*>(visitor))
     return parserVisitor->visitFalse(this);
   else
@@ -220,7 +322,8 @@ tree::TerminalNode* LTLParser::ImplicationContext::IMPLICATION() {
 
 LTLParser::ImplicationContext::ImplicationContext(FormulaContext *ctx) { copyFrom(ctx); }
 
-antlrcpp::Any LTLParser::ImplicationContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any LTLParser::ImplicationContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<LTLVisitor*>(visitor))
     return parserVisitor->visitImplication(this);
   else
@@ -242,7 +345,8 @@ tree::TerminalNode* LTLParser::UntilContext::UNTIL() {
 
 LTLParser::UntilContext::UntilContext(FormulaContext *ctx) { copyFrom(ctx); }
 
-antlrcpp::Any LTLParser::UntilContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any LTLParser::UntilContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<LTLVisitor*>(visitor))
     return parserVisitor->visitUntil(this);
   else
@@ -258,12 +362,17 @@ LTLParser::FormulaContext* LTLParser::formula(int precedence) {
   size_t parentState = getState();
   LTLParser::FormulaContext *_localctx = _tracker.createInstance<FormulaContext>(_ctx, parentState);
   LTLParser::FormulaContext *previousContext = _localctx;
+  (void)previousContext; // Silence compiler, in case the context is not used by generated code.
   size_t startState = 0;
   enterRecursionRule(_localctx, 0, LTLParser::RuleFormula, precedence);
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -419,6 +528,8 @@ LTLParser::FormulaContext* LTLParser::formula(int precedence) {
           break;
         }
 
+        default:
+          break;
         } 
       }
       setState(35);
@@ -436,7 +547,7 @@ LTLParser::FormulaContext* LTLParser::formula(int precedence) {
 
 bool LTLParser::sempred(RuleContext *context, size_t ruleIndex, size_t predicateIndex) {
   switch (ruleIndex) {
-    case 0: return formulaSempred(dynamic_cast<FormulaContext *>(context), predicateIndex);
+    case 0: return formulaSempred(antlrcpp::downCast<FormulaContext *>(context), predicateIndex);
 
   default:
     break;
@@ -457,85 +568,10 @@ bool LTLParser::formulaSempred(FormulaContext *_localctx, size_t predicateIndex)
   return true;
 }
 
-// Static vars and initialization.
-std::vector<dfa::DFA> LTLParser::_decisionToDFA;
-atn::PredictionContextCache LTLParser::_sharedContextCache;
-
-// We own the ATN which in turn owns the ATN states.
-atn::ATN LTLParser::_atn;
-std::vector<uint16_t> LTLParser::_serializedATN;
-
-std::vector<std::string> LTLParser::_ruleNames = {
-  "formula"
-};
-
-std::vector<std::string> LTLParser::_literalNames = {
-  "", "'('", "')'", "'F'", "'G'", "'X'", "'U'", "'!'", "'/\\'", "'\\/'", 
-  "'->'", "'true'", "'false'"
-};
-
-std::vector<std::string> LTLParser::_symbolicNames = {
-  "", "", "", "EVENTUALLY", "ALWAYS", "NEXT", "UNTIL", "NOT", "CONJUNCTION", 
-  "DISJUNCTION", "IMPLICATION", "TRUE", "FALSE", "ATOM", "WS"
-};
-
-dfa::Vocabulary LTLParser::_vocabulary(_literalNames, _symbolicNames);
-
-std::vector<std::string> LTLParser::_tokenNames;
-
-LTLParser::Initializer::Initializer() {
-	for (size_t i = 0; i < _symbolicNames.size(); ++i) {
-		std::string name = _vocabulary.getLiteralName(i);
-		if (name.empty()) {
-			name = _vocabulary.getSymbolicName(i);
-		}
-
-		if (name.empty()) {
-			_tokenNames.push_back("<INVALID>");
-		} else {
-      _tokenNames.push_back(name);
-    }
-	}
-
-  _serializedATN = {
-    0x3, 0x608b, 0xa72a, 0x8133, 0xb9ed, 0x417c, 0x3be7, 0x7786, 0x5964, 
-    0x3, 0x10, 0x27, 0x4, 0x2, 0x9, 0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 
-    0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 
-    0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x5, 0x2, 0x14, 0xa, 0x2, 
-    0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 
-    0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x7, 0x2, 0x22, 0xa, 
-    0x2, 0xc, 0x2, 0xe, 0x2, 0x25, 0xb, 0x2, 0x3, 0x2, 0x2, 0x3, 0x2, 0x3, 
-    0x2, 0x2, 0x2, 0x2, 0x2f, 0x2, 0x13, 0x3, 0x2, 0x2, 0x2, 0x4, 0x5, 0x8, 
-    0x2, 0x1, 0x2, 0x5, 0x6, 0x7, 0x9, 0x2, 0x2, 0x6, 0x14, 0x5, 0x2, 0x2, 
-    0xd, 0x7, 0x8, 0x7, 0x6, 0x2, 0x2, 0x8, 0x14, 0x5, 0x2, 0x2, 0xc, 0x9, 
-    0xa, 0x7, 0x5, 0x2, 0x2, 0xa, 0x14, 0x5, 0x2, 0x2, 0xb, 0xb, 0xc, 0x7, 
-    0x7, 0x2, 0x2, 0xc, 0x14, 0x5, 0x2, 0x2, 0xa, 0xd, 0x14, 0x7, 0xd, 0x2, 
-    0x2, 0xe, 0x14, 0x7, 0xe, 0x2, 0x2, 0xf, 0x10, 0x7, 0x3, 0x2, 0x2, 0x10, 
-    0x11, 0x5, 0x2, 0x2, 0x2, 0x11, 0x12, 0x7, 0x4, 0x2, 0x2, 0x12, 0x14, 
-    0x3, 0x2, 0x2, 0x2, 0x13, 0x4, 0x3, 0x2, 0x2, 0x2, 0x13, 0x7, 0x3, 0x2, 
-    0x2, 0x2, 0x13, 0x9, 0x3, 0x2, 0x2, 0x2, 0x13, 0xb, 0x3, 0x2, 0x2, 0x2, 
-    0x13, 0xd, 0x3, 0x2, 0x2, 0x2, 0x13, 0xe, 0x3, 0x2, 0x2, 0x2, 0x13, 
-    0xf, 0x3, 0x2, 0x2, 0x2, 0x14, 0x23, 0x3, 0x2, 0x2, 0x2, 0x15, 0x16, 
-    0xc, 0x9, 0x2, 0x2, 0x16, 0x17, 0x7, 0x8, 0x2, 0x2, 0x17, 0x22, 0x5, 
-    0x2, 0x2, 0xa, 0x18, 0x19, 0xc, 0x8, 0x2, 0x2, 0x19, 0x1a, 0x7, 0xc, 
-    0x2, 0x2, 0x1a, 0x22, 0x5, 0x2, 0x2, 0x9, 0x1b, 0x1c, 0xc, 0x7, 0x2, 
-    0x2, 0x1c, 0x1d, 0x7, 0xb, 0x2, 0x2, 0x1d, 0x22, 0x5, 0x2, 0x2, 0x8, 
-    0x1e, 0x1f, 0xc, 0x6, 0x2, 0x2, 0x1f, 0x20, 0x7, 0xa, 0x2, 0x2, 0x20, 
-    0x22, 0x5, 0x2, 0x2, 0x7, 0x21, 0x15, 0x3, 0x2, 0x2, 0x2, 0x21, 0x18, 
-    0x3, 0x2, 0x2, 0x2, 0x21, 0x1b, 0x3, 0x2, 0x2, 0x2, 0x21, 0x1e, 0x3, 
-    0x2, 0x2, 0x2, 0x22, 0x25, 0x3, 0x2, 0x2, 0x2, 0x23, 0x21, 0x3, 0x2, 
-    0x2, 0x2, 0x23, 0x24, 0x3, 0x2, 0x2, 0x2, 0x24, 0x3, 0x3, 0x2, 0x2, 
-    0x2, 0x25, 0x23, 0x3, 0x2, 0x2, 0x2, 0x5, 0x13, 0x21, 0x23, 
-  };
-
-  atn::ATNDeserializer deserializer;
-  _atn = deserializer.deserialize(_serializedATN);
-
-  size_t count = _atn.getNumberOfDecisions();
-  _decisionToDFA.reserve(count);
-  for (size_t i = 0; i < count; i++) { 
-    _decisionToDFA.emplace_back(_atn.getDecisionState(i), i);
-  }
+void LTLParser::initialize() {
+#if ANTLR4_USE_THREAD_LOCAL_CACHE
+  ltlParserInitialize();
+#else
+  ::antlr4::internal::call_once(ltlParserOnceFlag, ltlParserInitialize);
+#endif
 }
-
-LTLParser::Initializer LTLParser::_init;

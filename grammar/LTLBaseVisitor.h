@@ -1,5 +1,5 @@
 
-// Generated from LTL.g4 by ANTLR 4.7.1
+// Generated from LTL.g4 by ANTLR 4.13.2
 
 #pragma once
 
@@ -15,47 +15,47 @@
 class  LTLBaseVisitor : public LTLVisitor {
 public:
 
-  virtual antlrcpp::Any visitNot(LTLParser::NotContext *ctx) override {
+  virtual std::any visitNot(LTLParser::NotContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitParenthesis(LTLParser::ParenthesisContext *ctx) override {
+  virtual std::any visitParenthesis(LTLParser::ParenthesisContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitDisjunction(LTLParser::DisjunctionContext *ctx) override {
+  virtual std::any visitDisjunction(LTLParser::DisjunctionContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitNext(LTLParser::NextContext *ctx) override {
+  virtual std::any visitNext(LTLParser::NextContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitEventually(LTLParser::EventuallyContext *ctx) override {
+  virtual std::any visitEventually(LTLParser::EventuallyContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitConjunction(LTLParser::ConjunctionContext *ctx) override {
+  virtual std::any visitConjunction(LTLParser::ConjunctionContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitTrue(LTLParser::TrueContext *ctx) override {
+  virtual std::any visitTrue(LTLParser::TrueContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitAlways(LTLParser::AlwaysContext *ctx) override {
+  virtual std::any visitAlways(LTLParser::AlwaysContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitFalse(LTLParser::FalseContext *ctx) override {
+  virtual std::any visitFalse(LTLParser::FalseContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitImplication(LTLParser::ImplicationContext *ctx) override {
+  virtual std::any visitImplication(LTLParser::ImplicationContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitUntil(LTLParser::UntilContext *ctx) override {
+  virtual std::any visitUntil(LTLParser::UntilContext *ctx) override {
     return visitChildren(ctx);
   }
 
