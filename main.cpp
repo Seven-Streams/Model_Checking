@@ -36,13 +36,20 @@ int main(int argc, const char *argv[]) {
   }
   output->print();
   std::set<std::string> ap;
+  std::set<grammar::Node*> closure;
+  std::set<unsigned long long> hashs;
   grammar::Format(output, ap);
   for (const auto &i : ap) {
     std::cout << i << std::endl;
   }
   unsigned long long hash = output->hash();
-  std::cout << hash << std::endl;
   grammar::TSParser ts_parser("ts.txt");
   ts_parser.Print();
+  ap.clear();
+  grammar::BuildClosure(output, closure, hashs);
+  for (const auto &i : closure) {
+    i->print();
+    std::cout << std::endl;
+  }
   return 0;
 }
