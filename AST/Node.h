@@ -20,6 +20,7 @@ enum class BinaryOperator {
 class Node {
 public:
   virtual void print() const = 0;
+  virtual ~Node() = default;
 };
 
 class UnaryNode : public Node {
@@ -28,6 +29,7 @@ private:
   Node *child;
 
 public:
+  friend std::pair<Node *, bool> Simplify(Node *node);
   UnaryNode(Node *child_, const UnaryOperator &op_) : child(child_), op(op_) {}
 
   Node *getChild() const { return child; }
@@ -61,6 +63,7 @@ private:
   std::string name;
 
 public:
+  friend std::pair<Node *, bool> Simplify(Node *node);
   AtomNode(const std::string &name_, bool value_, bool is_const_)
       : name(name_), value(value_), is_const(is_const_) {}
 
@@ -97,6 +100,7 @@ private:
   Node *right;
 
 public:
+  friend std::pair<Node *, bool> Simplify(Node *node);
   BinaryNode(Node *left_, Node *right_, const BinaryOperator &op_)
       : left(left_), right(right_), op(op_) {}
 
