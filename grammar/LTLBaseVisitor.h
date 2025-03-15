@@ -55,6 +55,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitAtom(LTLParser::AtomContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitUntil(LTLParser::UntilContext *ctx) override {
     return visitChildren(ctx);
   }

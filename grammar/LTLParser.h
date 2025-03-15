@@ -153,6 +153,15 @@ public:
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 
+  class  AtomContext : public FormulaContext {
+  public:
+    AtomContext(FormulaContext *ctx);
+
+    antlr4::tree::TerminalNode *ATOM();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
   class  UntilContext : public FormulaContext {
   public:
     UntilContext(FormulaContext *ctx);

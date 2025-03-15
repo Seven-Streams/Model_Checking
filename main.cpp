@@ -1,36 +1,28 @@
-#include <iostream>
-#include <fstream>
+#include "AST/Bkornblume.h"
+#include "AST/Node.h"
 #include "antlr4-runtime.h"
 #include "grammar/LTLLexer.h"
 #include "grammar/LTLParser.h"
-#include "grammar/LTLBaseVisitor.h"
-
+#include <any>
+#include <fstream>
+#include <iostream>
 using namespace antlr4;
 
-class MyLTLVisitor : public LTLBaseVisitor {
-public:
-    antlrcpp::Any visitNot(LTLParser::NotContext *ctx) override {
-        std::cout << "Visiting Not node" << std::endl;
-        return visitChildren(ctx);
-    }
+int main(int argc, const char *argv[]) {
+  std::ifstream stream;
+  stream.open("input.txt");
 
-    // 你可以在这里添加更多的访问方法来处理不同的节点类型
-};
+  ANTLRInputStream input(stream);
+  LTLLexer lexer(&input);
+  CommonTokenStream tokens(&lexer);
+  LTLParser parser(&tokens);
 
-int main(int argc, const char* argv[]) {
-    std::ifstream stream;
-    stream.open("input.ltl");
+  tree::ParseTree *tree = parser.formula();
+  std::cout << tree->toStringTree(&parser) << std::endl;
 
-    ANTLRInputStream input(stream);
-    LTLLexer lexer(&input);
-    CommonTokenStream tokens(&lexer);
-    LTLParser parser(&tokens);
-
-    tree::ParseTree* tree = parser.formula();
-    std::cout << tree->toStringTree(&parser) << std::endl;
-
-    MyLTLVisitor visitor;
-    visitor.visit(tree);
-
-    return 0;
+  grammar::Bkornblume visitor;
+  visitor.visit(tree);
+  grammar::Node *output = std::any_cast<grammar::Node *>(visitor.visit(tree));
+  output->print();
+  return 0;
 }

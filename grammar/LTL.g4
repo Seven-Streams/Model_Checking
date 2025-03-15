@@ -11,6 +11,7 @@ formula:
     | TRUE # True
     | FALSE # False
     | '(' formula ')' # Parenthesis
+    | ATOM # Atom
     ;
 EVENTUALLY: 'F';
 ALWAYS: 'G';

@@ -39,6 +39,8 @@ public:
 
     virtual std::any visitImplication(LTLParser::ImplicationContext *context) = 0;
 
+    virtual std::any visitAtom(LTLParser::AtomContext *context) = 0;
+
     virtual std::any visitUntil(LTLParser::UntilContext *context) = 0;
 
 

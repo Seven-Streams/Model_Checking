@@ -1,6 +1,6 @@
 # filepath: /home/yuchuan/Model_Checking/CMakeLists.txt
 cmake_minimum_required(VERSION 3.10)
-project(LTLParser)
+project(ModelChecker)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -10,5 +10,5 @@ link_directories(/usr/local/lib)
 
 file(GLOB SOURCES "grammar/*.cpp")
 
-add_executable(LTLParser main.cpp ${SOURCES})
-target_link_libraries(LTLParser antlr4-runtime)
+add_executable(ModelChecker main.cpp ${SOURCES})
+target_link_libraries(ModelChecker antlr4-runtime)

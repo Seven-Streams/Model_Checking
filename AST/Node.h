@@ -37,16 +37,16 @@ public:
   void print() const override {
     switch (op) {
     case UnaryOperator::NOT:
-      std::cout << "!";
+      std::cout << "NOT";
       break;
     case UnaryOperator::NEXT:
-      std::cout << "X";
+      std::cout << "NEXT";
       break;
     case UnaryOperator::EVENTUALLY:
-      std::cout << "F";
+      std::cout << "EVENTUALLY";
       break;
     case UnaryOperator::ALWAYS:
-      std::cout << "G";
+      std::cout << "ALWAYS";
       break;
     }
     child->print();
@@ -82,7 +82,7 @@ public:
 
   void print() const override {
     if (is_const) {
-      std::cout << (value ? "true" : "false");
+      std::cout << (value ? "TRUE" : "FALSE");
     } else {
       std::cout << name;
     }
@@ -110,16 +110,16 @@ public:
     left->print();
     switch (op) {
     case BinaryOperator::AND:
-      std::cout << " /\\ ";
+      std::cout << "AND";
       break;
     case BinaryOperator::OR:
-      std::cout << " \\/ ";
+      std::cout << "OR";
       break;
     case BinaryOperator::IMPLIES:
-      std::cout << " -> ";
+      std::cout << "IMPLIES";
       break;
     case BinaryOperator::UNTIL:
-      std::cout << " U ";
+      std::cout << "UNTIL";
       break;
     }
     right->print();

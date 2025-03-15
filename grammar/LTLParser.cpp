@@ -64,18 +64,19 @@ void ltlParserInitialize() {
     }
   );
   static const int32_t serializedATNSegment[] = {
-  	4,1,14,37,2,0,7,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,
-  	1,0,1,0,3,0,18,8,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,5,
-  	0,32,8,0,10,0,12,0,35,9,0,1,0,0,1,0,1,0,0,0,45,0,17,1,0,0,0,2,3,6,0,-1,
-  	0,3,4,5,7,0,0,4,18,3,0,0,11,5,6,5,4,0,0,6,18,3,0,0,10,7,8,5,3,0,0,8,18,
-  	3,0,0,9,9,10,5,5,0,0,10,18,3,0,0,8,11,18,5,11,0,0,12,18,5,12,0,0,13,14,
-  	5,1,0,0,14,15,3,0,0,0,15,16,5,2,0,0,16,18,1,0,0,0,17,2,1,0,0,0,17,5,1,
-  	0,0,0,17,7,1,0,0,0,17,9,1,0,0,0,17,11,1,0,0,0,17,12,1,0,0,0,17,13,1,0,
-  	0,0,18,33,1,0,0,0,19,20,10,7,0,0,20,21,5,6,0,0,21,32,3,0,0,8,22,23,10,
-  	6,0,0,23,24,5,10,0,0,24,32,3,0,0,7,25,26,10,5,0,0,26,27,5,9,0,0,27,32,
-  	3,0,0,6,28,29,10,4,0,0,29,30,5,8,0,0,30,32,3,0,0,5,31,19,1,0,0,0,31,22,
-  	1,0,0,0,31,25,1,0,0,0,31,28,1,0,0,0,32,35,1,0,0,0,33,31,1,0,0,0,33,34,
-  	1,0,0,0,34,1,1,0,0,0,35,33,1,0,0,0,3,17,31,33
+  	4,1,14,38,2,0,7,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,
+  	1,0,1,0,1,0,3,0,19,8,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,
+  	0,5,0,33,8,0,10,0,12,0,36,9,0,1,0,0,1,0,1,0,0,0,47,0,18,1,0,0,0,2,3,6,
+  	0,-1,0,3,4,5,7,0,0,4,19,3,0,0,12,5,6,5,4,0,0,6,19,3,0,0,11,7,8,5,3,0,
+  	0,8,19,3,0,0,10,9,10,5,5,0,0,10,19,3,0,0,9,11,19,5,11,0,0,12,19,5,12,
+  	0,0,13,14,5,1,0,0,14,15,3,0,0,0,15,16,5,2,0,0,16,19,1,0,0,0,17,19,5,13,
+  	0,0,18,2,1,0,0,0,18,5,1,0,0,0,18,7,1,0,0,0,18,9,1,0,0,0,18,11,1,0,0,0,
+  	18,12,1,0,0,0,18,13,1,0,0,0,18,17,1,0,0,0,19,34,1,0,0,0,20,21,10,8,0,
+  	0,21,22,5,6,0,0,22,33,3,0,0,9,23,24,10,7,0,0,24,25,5,10,0,0,25,33,3,0,
+  	0,8,26,27,10,6,0,0,27,28,5,9,0,0,28,33,3,0,0,7,29,30,10,5,0,0,30,31,5,
+  	8,0,0,31,33,3,0,0,6,32,20,1,0,0,0,32,23,1,0,0,0,32,26,1,0,0,0,32,29,1,
+  	0,0,0,33,36,1,0,0,0,34,32,1,0,0,0,34,35,1,0,0,0,35,1,1,0,0,0,36,34,1,
+  	0,0,0,3,18,32,34
   };
   staticData->serializedATN = antlr4::atn::SerializedATNView(serializedATNSegment, sizeof(serializedATNSegment) / sizeof(serializedATNSegment[0]));
 
@@ -329,6 +330,21 @@ std::any LTLParser::ImplicationContext::accept(tree::ParseTreeVisitor *visitor) 
   else
     return visitor->visitChildren(this);
 }
+//----------------- AtomContext ------------------------------------------------------------------
+
+tree::TerminalNode* LTLParser::AtomContext::ATOM() {
+  return getToken(LTLParser::ATOM, 0);
+}
+
+LTLParser::AtomContext::AtomContext(FormulaContext *ctx) { copyFrom(ctx); }
+
+
+std::any LTLParser::AtomContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<LTLVisitor*>(visitor))
+    return parserVisitor->visitAtom(this);
+  else
+    return visitor->visitChildren(this);
+}
 //----------------- UntilContext ------------------------------------------------------------------
 
 std::vector<LTLParser::FormulaContext *> LTLParser::UntilContext::formula() {
@@ -378,7 +394,7 @@ LTLParser::FormulaContext* LTLParser::formula(int precedence) {
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(17);
+    setState(18);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case LTLParser::NOT: {
@@ -389,7 +405,7 @@ LTLParser::FormulaContext* LTLParser::formula(int precedence) {
         setState(3);
         match(LTLParser::NOT);
         setState(4);
-        formula(11);
+        formula(12);
         break;
       }
 
@@ -400,7 +416,7 @@ LTLParser::FormulaContext* LTLParser::formula(int precedence) {
         setState(5);
         match(LTLParser::ALWAYS);
         setState(6);
-        formula(10);
+        formula(11);
         break;
       }
 
@@ -411,7 +427,7 @@ LTLParser::FormulaContext* LTLParser::formula(int precedence) {
         setState(7);
         match(LTLParser::EVENTUALLY);
         setState(8);
-        formula(9);
+        formula(10);
         break;
       }
 
@@ -422,7 +438,7 @@ LTLParser::FormulaContext* LTLParser::formula(int precedence) {
         setState(9);
         match(LTLParser::NEXT);
         setState(10);
-        formula(8);
+        formula(9);
         break;
       }
 
@@ -457,11 +473,20 @@ LTLParser::FormulaContext* LTLParser::formula(int precedence) {
         break;
       }
 
+      case LTLParser::ATOM: {
+        _localctx = _tracker.createInstance<AtomContext>(_localctx);
+        _ctx = _localctx;
+        previousContext = _localctx;
+        setState(17);
+        match(LTLParser::ATOM);
+        break;
+      }
+
     default:
       throw NoViableAltException(this);
     }
     _ctx->stop = _input->LT(-1);
-    setState(33);
+    setState(34);
     _errHandler->sync(this);
     alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 2, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
@@ -469,20 +494,20 @@ LTLParser::FormulaContext* LTLParser::formula(int precedence) {
         if (!_parseListeners.empty())
           triggerExitRuleEvent();
         previousContext = _localctx;
-        setState(31);
+        setState(32);
         _errHandler->sync(this);
         switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 1, _ctx)) {
         case 1: {
           auto newContext = _tracker.createInstance<UntilContext>(_tracker.createInstance<FormulaContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleFormula);
-          setState(19);
-
-          if (!(precpred(_ctx, 7))) throw FailedPredicateException(this, "precpred(_ctx, 7)");
           setState(20);
-          match(LTLParser::UNTIL);
+
+          if (!(precpred(_ctx, 8))) throw FailedPredicateException(this, "precpred(_ctx, 8)");
           setState(21);
-          formula(8);
+          match(LTLParser::UNTIL);
+          setState(22);
+          formula(9);
           break;
         }
 
@@ -490,13 +515,13 @@ LTLParser::FormulaContext* LTLParser::formula(int precedence) {
           auto newContext = _tracker.createInstance<ImplicationContext>(_tracker.createInstance<FormulaContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleFormula);
-          setState(22);
-
-          if (!(precpred(_ctx, 6))) throw FailedPredicateException(this, "precpred(_ctx, 6)");
           setState(23);
-          match(LTLParser::IMPLICATION);
+
+          if (!(precpred(_ctx, 7))) throw FailedPredicateException(this, "precpred(_ctx, 7)");
           setState(24);
-          formula(7);
+          match(LTLParser::IMPLICATION);
+          setState(25);
+          formula(8);
           break;
         }
 
@@ -504,13 +529,13 @@ LTLParser::FormulaContext* LTLParser::formula(int precedence) {
           auto newContext = _tracker.createInstance<DisjunctionContext>(_tracker.createInstance<FormulaContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleFormula);
-          setState(25);
-
-          if (!(precpred(_ctx, 5))) throw FailedPredicateException(this, "precpred(_ctx, 5)");
           setState(26);
-          match(LTLParser::DISJUNCTION);
+
+          if (!(precpred(_ctx, 6))) throw FailedPredicateException(this, "precpred(_ctx, 6)");
           setState(27);
-          formula(6);
+          match(LTLParser::DISJUNCTION);
+          setState(28);
+          formula(7);
           break;
         }
 
@@ -518,13 +543,13 @@ LTLParser::FormulaContext* LTLParser::formula(int precedence) {
           auto newContext = _tracker.createInstance<ConjunctionContext>(_tracker.createInstance<FormulaContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleFormula);
-          setState(28);
-
-          if (!(precpred(_ctx, 4))) throw FailedPredicateException(this, "precpred(_ctx, 4)");
           setState(29);
-          match(LTLParser::CONJUNCTION);
+
+          if (!(precpred(_ctx, 5))) throw FailedPredicateException(this, "precpred(_ctx, 5)");
           setState(30);
-          formula(5);
+          match(LTLParser::CONJUNCTION);
+          setState(31);
+          formula(6);
           break;
         }
 
@@ -532,7 +557,7 @@ LTLParser::FormulaContext* LTLParser::formula(int precedence) {
           break;
         } 
       }
-      setState(35);
+      setState(36);
       _errHandler->sync(this);
       alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 2, _ctx);
     }
@@ -557,10 +582,10 @@ bool LTLParser::sempred(RuleContext *context, size_t ruleIndex, size_t predicate
 
 bool LTLParser::formulaSempred(FormulaContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 0: return precpred(_ctx, 7);
-    case 1: return precpred(_ctx, 6);
-    case 2: return precpred(_ctx, 5);
-    case 3: return precpred(_ctx, 4);
+    case 0: return precpred(_ctx, 8);
+    case 1: return precpred(_ctx, 7);
+    case 2: return precpred(_ctx, 6);
+    case 3: return precpred(_ctx, 5);
 
   default:
     break;
