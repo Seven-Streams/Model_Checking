@@ -6,3 +6,4 @@ antlr-4.13.2-complete.jar
 /grammar/.antlr
 input.txt
 ModelChecker
+ts.txt

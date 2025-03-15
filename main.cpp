@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <set>
+#include "Translate/TSParser.h"
 using namespace antlr4;
 
 int main(int argc, const char *argv[]) {
@@ -39,5 +40,9 @@ int main(int argc, const char *argv[]) {
   for (const auto &i : ap) {
     std::cout << i << std::endl;
   }
+  unsigned long long hash = output->hash();
+  std::cout << hash << std::endl;
+  grammar::TSParser ts_parser("ts.txt");
+  ts_parser.Print();
   return 0;
 }

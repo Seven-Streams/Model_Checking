@@ -14,5 +14,6 @@ add_executable(ModelChecker
 main.cpp
 Transform/Simplify.cpp
 Transform/BuildClosure.cpp
+Translate/TSParser.cpp
 ${SOURCES})
 target_link_libraries(ModelChecker antlr4-runtime)
