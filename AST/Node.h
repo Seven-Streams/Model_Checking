@@ -24,6 +24,7 @@ public:
   virtual std::string to_string() const = 0;
   virtual unsigned long long hash() const = 0;
   virtual ~Node() = default;
+  virtual int length() const = 0;
 };
 
 class UnaryNode : public Node {
@@ -33,6 +34,11 @@ private:
 
 public:
   friend std::pair<Node *, bool> Simplify(Node *node);
+
+  int length() const override {
+    return 1 + child->length();
+  }
+
   UnaryNode(Node *child_, const UnaryOperator &op_) : child(child_), op(op_) {}
 
   Node *getChild() const { return child; }
@@ -132,6 +138,10 @@ public:
     }
     return std::hash<std::string>{}(name);
   }
+
+  int length() const override {
+    return 1;
+  }
 };
 
 class BinaryNode : public Node {
@@ -199,6 +209,10 @@ public:
     unsigned long long op_hash = 0;
     op_hash = std::hash<int>{}(static_cast<int>(op));
     return op_hash ^ (left->hash() << 1) ^ (right->hash() << 2);
+  }
+
+  int length() const override {
+    return 1 + left->length() + right->length();
   }
 };
 } // namespace grammar

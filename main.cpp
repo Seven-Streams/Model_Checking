@@ -1,17 +1,7 @@
-#include "AST/Bkornblume.h"
-#include "AST/Node.h"
-#include "Transform/Transformer.h"
-#include "antlr4-runtime.h"
-#include "grammar/LTLLexer.h"
-#include "grammar/LTLParser.h"
-#include <any>
-#include <fstream>
-#include <iostream>
-#include <set>
-#include "Translate/TSParser.h"
+#include "MCInclude.h"
 using namespace antlr4;
 
-int main(int argc, const char *argv[]) {
+int main() {
   std::ifstream stream;
   stream.open("input.txt");
 
@@ -47,8 +37,12 @@ int main(int argc, const char *argv[]) {
   ts_parser.Print();
   ap.clear();
   grammar::BuildClosure(output, closure, hashs);
-  for (const auto &i : closure) {
-    i->print();
+  auto element_set = grammar::GetElementSet(closure);
+  for (const auto &i : element_set) {
+    for (const auto &j : i) {
+      j->print();
+      std::cout << " ";
+    }
     std::cout << std::endl;
   }
   return 0;

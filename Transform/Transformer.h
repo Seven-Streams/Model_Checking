@@ -2,6 +2,7 @@
 #include "../AST/Node.h"
 #include <set>
 #include <utility>
+#include <vector>
 namespace grammar {
 // This function will simplify the LTL formula.
 // The unary operator will be transformed into "not", "next" and "until".
@@ -18,4 +19,8 @@ void Format(Node *node, std::set<std::string> &ap);
 // It will build the closure of the formula.
 void BuildClosure(Node *node, std::set<Node *> &closure,
                   std::set<unsigned long long> &hash);
+
+// This function should be called after BuildClosure.
+// This function will return all the elmentary sets of the closure.
+std::vector<std::vector<Node *>> GetElementSet(const std::set<Node *> &closure);
 } // namespace grammar
