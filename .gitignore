@@ -3,3 +3,4 @@ antlr-4.13.2-complete.jar
 /build
 /antlr4
 /.cache
+/grammar/.antlr
