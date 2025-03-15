@@ -1,25 +1,28 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <set>
 namespace grammar {
 
 enum class UnaryOperator {
-  NOT,
-  NEXT,
-  EVENTUALLY,
-  ALWAYS,
+  NOT = 0,
+  NEXT = 1,
+  EVENTUALLY = 2,
+  ALWAYS = 3,
 };
 
 enum class BinaryOperator {
-  AND,
-  OR,
-  IMPLIES,
-  UNTIL,
+  AND = 4,
+  OR = 5,
+  IMPLIES = 6,
+  UNTIL = 7,
 };
 
 class Node {
 public:
   virtual void print() const = 0;
+  virtual std::string to_string() const = 0;
+  virtual unsigned long long hash() const = 0;
   virtual ~Node() = default;
 };
 
@@ -39,20 +42,44 @@ public:
   void print() const override {
     switch (op) {
     case UnaryOperator::NOT:
-      std::cout << "NOT";
+      std::cout << " __NOT__ ";
       break;
     case UnaryOperator::NEXT:
-      std::cout << "NEXT";
+      std::cout << " __NEXT__ ";
       break;
     case UnaryOperator::EVENTUALLY:
-      std::cout << "EVENTUALLY";
+      std::cout << " __EVENTUALLY__ ";
       break;
     case UnaryOperator::ALWAYS:
-      std::cout << "ALWAYS";
+      std::cout << " __ALWAYS__ ";
       break;
     }
     child->print();
     return;
+  }
+  std::string to_string() const override {
+    std::string result;
+    switch (op) {
+    case UnaryOperator::NOT:
+      result += " __NOT__ ";
+      break;
+    case UnaryOperator::NEXT:
+      result += " __NEXT__ ";
+      break;
+    case UnaryOperator::EVENTUALLY:
+      result += " __EVENTUALLY__ ";
+      break;
+    case UnaryOperator::ALWAYS:
+      result += " __ALWAYS__ ";
+      break;
+    }
+    result += child->to_string();
+    return result;
+  }
+  unsigned long long hash() const override {
+    unsigned long long op_hash = 0;
+    op_hash = std::hash<int>{}(static_cast<int>(op));
+    return op_hash ^ (child->hash() << 1);
   }
 };
 
@@ -85,11 +112,25 @@ public:
 
   void print() const override {
     if (is_const) {
-      std::cout << (value ? "TRUE" : "FALSE");
+      std::cout << (value ? " __TRUE__ " : " __FALSE__ ");
     } else {
       std::cout << name;
     }
     return;
+  }
+
+  std::string to_string() const override {
+    if (is_const) {
+      return value ? " __TRUE__ " : "  __FALSE__ ";
+    } else {
+      return name;
+    }
+  }
+  unsigned long long hash() const override {
+    if(is_const) {
+      return std::hash<bool>{}(value);
+    }
+    return std::hash<std::string>{}(name);
   }
 };
 
@@ -101,6 +142,7 @@ private:
 
 public:
   friend std::pair<Node *, bool> Simplify(Node *node);
+  friend void Format(Node *node, std::set<std::string> &ap);
   BinaryNode(Node *left_, Node *right_, const BinaryOperator &op_)
       : left(left_), right(right_), op(op_) {}
 
@@ -114,20 +156,49 @@ public:
     left->print();
     switch (op) {
     case BinaryOperator::AND:
-      std::cout << "AND";
+      std::cout << " __AND__ ";
       break;
     case BinaryOperator::OR:
-      std::cout << "OR";
+      std::cout << " __OR__ ";
       break;
     case BinaryOperator::IMPLIES:
-      std::cout << "IMPLIES";
+      std::cout << " __IMPLIES__ ";
       break;
     case BinaryOperator::UNTIL:
-      std::cout << "UNTIL";
+      std::cout << " __UNTIL__ ";
       break;
     }
     right->print();
     return;
+  }
+
+  std::string to_string() const override {
+    std::string result = left->to_string();
+    switch (op) {
+    case BinaryOperator::AND: {
+      result += " __AND__ ";
+      break;
+    }
+    case BinaryOperator::OR: {
+      result += " __OR__ ";
+      break;
+    }
+    case BinaryOperator::IMPLIES: {
+      result += " __IMPLIES__ ";
+      break;
+    }
+    case BinaryOperator::UNTIL: {
+      result += " __UNTIL__ ";
+      break;
+    }
+    }
+    result += right->to_string();
+    return result;
+  }
+  unsigned long long hash() const override {
+    unsigned long long op_hash = 0;
+    op_hash = std::hash<int>{}(static_cast<int>(op));
+    return op_hash ^ (left->hash() << 1) ^ (right->hash() << 2);
   }
 };
 } // namespace grammar

@@ -3,6 +3,7 @@
 #include "Node.h"
 #include <cassert>
 namespace grammar {
+// This class is used to build the AST from the parse tree.
 class Bkornblume : public LTLBaseVisitor {
   std::any visitNot(LTLParser::NotContext *ctx) override {
     UnaryNode *node = new UnaryNode(
@@ -53,7 +54,7 @@ class Bkornblume : public LTLBaseVisitor {
   }
 
   std::any visitFalse(LTLParser::FalseContext *ctx) override {
-    AtomNode *node = new AtomNode("", false, false);
+    AtomNode *node = new AtomNode("", false, true);
     return static_cast<Node *>(node);
   }
 

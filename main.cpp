@@ -7,6 +7,7 @@
 #include <any>
 #include <fstream>
 #include <iostream>
+#include <set>
 using namespace antlr4;
 
 int main(int argc, const char *argv[]) {
@@ -33,5 +34,10 @@ int main(int argc, const char *argv[]) {
     }
   }
   output->print();
+  std::set<std::string> ap;
+  grammar::Format(output, ap);
+  for (const auto &i : ap) {
+    std::cout << i << std::endl;
+  }
   return 0;
 }
