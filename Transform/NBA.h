@@ -34,7 +34,7 @@ private:
 public:
   friend class Product;
   
-  NBA(const GNBA &GNBA);
+  NBA(GNBA GNBA);
 
   void print();
 };
