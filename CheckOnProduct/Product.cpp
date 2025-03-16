@@ -175,6 +175,7 @@ bool Product::cycle_check(ProductState s) {
 bool Product::Check() {
   std::set<ProductState> R;
   bool cycle_found = false;
+  assert(init_states.size() != 0);
   for (auto init : init_states) {
     if (cycle_found) {
       break;

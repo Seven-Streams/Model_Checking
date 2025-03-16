@@ -166,7 +166,7 @@ void GNBA::print() const {
     for (auto state : states) {
       for (auto formula : state) {
         formula->print();
-        std::cout << " ";
+        std::cout << " ,";
       }
       std::cout << std::endl;
     }

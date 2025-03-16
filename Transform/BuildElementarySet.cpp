@@ -1,6 +1,5 @@
 #include "Transformer.h"
 #include <algorithm>
-#include <iostream>
 #include <utility>
 #include <vector>
 namespace grammar {
@@ -124,16 +123,7 @@ GetElementSet(const std::set<Node *> &closure,
               return a.first->length() < b.first->length();
             });
   if (true_node != nullptr) {
-    true_node->print();
-    std::cout << " ";
-    false_node->print();
-    std::cout << std::endl;
-  }
-  for (auto i : pairs) {
-    i.first->print();
-    std::cout << " ";
-    i.second->print();
-    std::cout << std::endl;
+    pairs.insert(pairs.begin(), std::make_pair(true_node, false_node));
   }
   std::vector<Node *> now_subformula;
   DFSToGetElementarySet(pairs, true_node, 0, now_subformula, elementary_set);

@@ -40,20 +40,24 @@ int main() {
   grammar::TSParser ts_parser("ts.txt");
   // ts_parser.Print();
   // ap.clear();
+  std::cout << std::endl;
   grammar::BuildClosure(output, closure, hashs);
   std::vector<std::pair<grammar::Node *, grammar::Node*>> pairs;
   auto element_set = grammar::GetElementSet(closure, pairs);
-  // for (const auto &i : element_set) {
-  //   for (const auto &j : i) {
-  //     j->print();
-  //     std::cout << " ";
-  //   }
-  //   std::cout << std::endl;
-  // }
+  std::cout << "Element set:" << std::endl;
+  for (const auto &i : element_set) {
+    for (const auto &j : i) {
+      j->print();
+      std::cout << ", ";
+    }
+    std::cout << std::endl;
+  }
   grammar::GNBA gnba(element_set, output, pairs);
   // gnba.print();
   grammar::NBA nba(gnba);
+  // nba.print();
   grammar::Product product(ts_parser, nba, output);
   std::cout << product.Check() << std::endl;
+  stream.close();
   return 0;
 }
