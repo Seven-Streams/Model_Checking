@@ -16,6 +16,7 @@ private:
   std::set<ProductState> init_states;
   std::map<ProductState, bool> formula_hold;
   std::map<ProductState, std::set<ProductState>> transitions;
+  Node* root_formula;
 
   bool cycle_check(ProductState s);
 
@@ -37,5 +38,7 @@ public:
     }
     return;
   }
+
+  bool Check(int state);
 };
 } // namespace grammar

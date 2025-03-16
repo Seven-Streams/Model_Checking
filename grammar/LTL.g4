@@ -23,5 +23,5 @@ DISJUNCTION: '\\/';
 IMPLICATION: '->';
 TRUE: 'true';
 FALSE: 'false';
-ATOM: [a-zA-Z]+;
+ATOM: [a-z]+;
 WS: [ \t\r\n]+ -> skip;

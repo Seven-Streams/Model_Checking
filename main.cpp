@@ -1,4 +1,5 @@
 #include "MCInclude.h"
+#include <cassert>
 using namespace antlr4;
 
 int main() {
@@ -73,7 +74,7 @@ int main() {
     grammar::GNBA gnba(element_set, output, pairs);
     grammar::NBA nba(gnba);
     grammar::Product product(ts_parser, nba, output);
-    // std::cout << product.Check() << std::endl;
+    std::cout << product.Check(state_id) << std::endl;
   }
   fclose(stdin);
   return 0;

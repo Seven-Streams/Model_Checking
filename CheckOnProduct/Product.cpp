@@ -1,7 +1,9 @@
 #include "Product.h"
+#include <queue>
 #include <stack>
 namespace grammar {
-Product::Product(TSParser &ts_parser, NBA &nba, Node *root_formula) {
+Product::Product(TSParser &ts_parser, NBA &nba, Node *_root_formula) {
+  root_formula = _root_formula;
   unsigned long long root_hash = root_formula->hash();
   // Initialize the states.
   for (int i = 0; i < ts_parser.state_num; i++) {
@@ -200,5 +202,32 @@ bool Product::Check() {
     reachable_cycle(init, R);
   }
   return !cycle_found;
+}
+
+bool Product::Check(int state) {
+  unsigned long long root_hash = root_formula->hash();
+  std::set<ProductState> R;
+  std::queue<ProductState> Q;
+  for (auto init : init_states) {
+    R.insert(init);
+    Q.push(init);
+  }
+  while (!Q.empty()) {
+    ProductState current = Q.front();
+    Q.pop();
+    if (current.first == state) {
+      unsigned long long hash = current.second.first.back()->hash();
+      if (hash != root_hash) {
+        return false;
+      }
+    }
+    for (auto next : transitions[current]) {
+      if (R.find(next) == R.end()) {
+        R.insert(next);
+        Q.push(next);
+      }
+    }
+  }
+  return true;
 }
 } // namespace grammar
