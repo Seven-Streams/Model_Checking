@@ -16,5 +16,6 @@ Transform/Simplify.cpp
 Transform/BuildElementarySet.cpp
 Transform/BuildNBA.cpp
 Translate/TSParser.cpp
+CheckOnProduct/Product.cpp
 ${SOURCES})
 target_link_libraries(ModelChecker antlr4-runtime)

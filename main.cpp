@@ -1,3 +1,4 @@
+#include "CheckOnProduct/Product.h"
 #include "MCInclude.h"
 #include "Transform/NBA.h"
 #include <utility>
@@ -32,26 +33,27 @@ int main() {
   std::set<grammar::Node*> closure;
   std::set<unsigned long long> hashs;
   grammar::Format(output, ap);
-  for (const auto &i : ap) {
-    std::cout << i << std::endl;
-  }
+  // for (const auto &i : ap) {
+  //   std::cout << i << std::endl;
+  // }
   unsigned long long hash = output->hash();
   grammar::TSParser ts_parser("ts.txt");
-  ts_parser.Print();
-  ap.clear();
+  // ts_parser.Print();
+  // ap.clear();
   grammar::BuildClosure(output, closure, hashs);
   std::vector<std::pair<grammar::Node *, grammar::Node*>> pairs;
   auto element_set = grammar::GetElementSet(closure, pairs);
-  for (const auto &i : element_set) {
-    for (const auto &j : i) {
-      j->print();
-      std::cout << " ";
-    }
-    std::cout << std::endl;
-  }
+  // for (const auto &i : element_set) {
+  //   for (const auto &j : i) {
+  //     j->print();
+  //     std::cout << " ";
+  //   }
+  //   std::cout << std::endl;
+  // }
   grammar::GNBA gnba(element_set, output, pairs);
   // gnba.print();
   grammar::NBA nba(gnba);
-  nba.print();
+  grammar::Product product(ts_parser, nba, output);
+  std::cout << product.Check() << std::endl;
   return 0;
 }

@@ -17,7 +17,12 @@ private:
   std::map<ProductState, bool> formula_hold;
   std::map<ProductState, std::set<ProductState>> transitions;
 
+  bool cycle_check(ProductState s);
+
+  bool reachable_cycle(ProductState s, std::set<ProductState> &R);
+
 public:
   Product(TSParser &ts_parser, NBA &nba, Node *root_formula);
+  bool Check();
 };
 } // namespace grammar
