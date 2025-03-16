@@ -50,6 +50,8 @@ int main() {
     std::cout << std::endl;
   }
   grammar::GNBA gnba(element_set, output, pairs);
-  gnba.print();
+  // gnba.print();
+  grammar::NBA nba(gnba);
+  nba.print();
   return 0;
 }

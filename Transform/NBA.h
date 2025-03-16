@@ -219,5 +219,117 @@ public:
     }
     return;
   }
+
+  friend class NBA;
+};
+
+class NBA {
+private:
+  using State = std::vector<Node *>;
+  using NBAState = std::pair<State, int>;
+  using NBAStates = std::set<NBAState>;
+  NBAStates states;
+  NBAStates init_states;
+  std::map<NBAState, std::set<NBAState>> transitions;
+  NBAStates final_states;
+
+public:
+  NBA(const GNBA &GNBA) {
+    int final_states_size = GNBA.final_states.size();
+
+    // Add all the states from GNBA to NBA.
+    for (int i = 0; i < final_states_size; i++) {
+      for (auto state : GNBA.states) {
+        NBAState nba_state = std::make_pair(state, i);
+        transitions[nba_state] = std::set<NBAState>();
+        states.insert(nba_state);
+      }
+    }
+
+    // Add all the init_states from GNBA to NBA.
+    for (auto state : GNBA.init_states) {
+      NBAState nba_state = std::make_pair(state, 0);
+      init_states.insert(nba_state);
+    }
+
+    // Add all the final_states from GNBA to NBA.
+    for (auto state : GNBA.final_states[0]) {
+      NBAState nba_state = std::make_pair(state, 0);
+      final_states.insert(nba_state);
+    }
+
+    // Build the transitions.
+    //The final States are connected to the next duplicate state of itself.
+    for (int i = 0; i < final_states_size; i++) {
+      for (auto transition : GNBA.transitions) {
+        NBAState from = std::pair(transition.first, i);
+        bool flag = false;
+        for (auto final_i : GNBA.final_states[i]) {
+          if (transition.second.find(final_i) != transition.second.end()) {
+            flag = true;
+            break;
+          }
+        }
+        if (flag) {
+          if (i + 1 < final_states_size) {
+            NBAState to = std::pair(transition.first, i + 1);
+            transitions[from].insert(to);
+          } else {
+            NBAState to = std::pair(transition.first, 0);
+            transitions[from].insert(to);
+          }
+        } else {
+          for (auto trans : transition.second) {
+            NBAState to = std::pair(trans, i);
+            transitions[from].insert(to);
+          }
+        }
+      }
+    }
+  }
+
+  void print() {
+    std::cout << "states:" << std::endl;
+    for (auto state : states) {
+      for (auto formula : state.first) {
+        formula->print();
+        std::cout << " ";
+      }
+      std::cout << " " << state.second << std::endl;
+    }
+    std::cout << "init_states:" << std::endl;
+    for (auto state : init_states) {
+      for (auto formula : state.first) {
+        formula->print();
+        std::cout << " ";
+      }
+      std::cout << " " << state.second << std::endl;
+    }
+    std::cout << "transitions:" << std::endl;
+    for (auto transition : transitions) {
+      for (auto state : transition.first.first) {
+        state->print();
+        std::cout << " ";
+      }
+      std::cout << " " << transition.first.second << " -> ";
+      for (auto state : transition.second) {
+        for (auto formula : state.first) {
+          formula->print();
+          std::cout << " ";
+        }
+        std::cout << " " << state.second << std::endl;
+      }
+      std::cout << std::endl;
+    }
+    std::cout << "final_states:" << std::endl;
+    for (auto final : final_states) {
+      for (auto state : final.first) {
+        state->print();
+        std::cout << " ";
+      }
+      std::cout << " " << final.second << std::endl;
+    }
+    return;
+  }
 };
 } // namespace grammar
