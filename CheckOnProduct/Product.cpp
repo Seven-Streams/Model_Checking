@@ -15,23 +15,30 @@ Product::Product(TSParser &ts_parser, NBA &nba, Node *root_formula) {
     // Check the consistency of the properties between the TS state and the
     // NBA state.
     for (auto nba_state : nba.states) {
-      std::set<std::string> nba_properties;
+      bool consistent = true;
       for (auto p : nba_state.first) {
         if (typeid(*p) == typeid(AtomNode)) {
           auto atom = dynamic_cast<AtomNode *>(p);
           if (!atom->IsConst()) {
-            nba_properties.insert(atom->GetName());
+            if (str_properties.count(atom->GetName()) == 0) {
+              consistent = false;
+              break;
+            }
           }
         }
-      }
-      bool consistent = true;
-      if (nba_properties.size() != str_properties.size()) {
-        consistent = false;
-      } else {
-        for (auto p : nba_properties) {
-          if (str_properties.find(p) == str_properties.end()) {
-            consistent = false;
-            break;
+        if (typeid(*p) == typeid(UnaryNode)) {
+          auto unary = dynamic_cast<UnaryNode *>(p);
+          if (unary->getOperator() == UnaryOperator::NOT) {
+            auto child = unary->getChild();
+            if (typeid(*child) == typeid(AtomNode)) {
+              auto atom = dynamic_cast<AtomNode *>(child);
+              if (!atom->IsConst()) {
+                if (str_properties.count(atom->GetName()) != 0) {
+                  consistent = false;
+                  break;
+                }
+              }
+            }
           }
         }
       }
@@ -86,23 +93,30 @@ Product::Product(TSParser &ts_parser, NBA &nba, Node *root_formula) {
       auto nba_trans = nba.transitions[nba_init_state];
       for (auto nba_trans_des : nba_trans) {
         bool consistent = true;
-        std::set<std::string> nba_properties;
         // Check if the state can be reached by the initial state of TS.
         for (auto formula : nba_trans_des.first) {
           if (typeid(*formula) == typeid(AtomNode)) {
             auto atom = dynamic_cast<AtomNode *>(formula);
             if (!atom->IsConst()) {
-              nba_properties.insert(atom->GetName());
+              if (str_properties.count(atom->GetName()) == 0) {
+                consistent = false;
+                break;
+              }
             }
           }
-        }
-        if (nba_properties.size() != str_properties.size()) {
-          consistent = false;
-        } else {
-          for (auto p : nba_properties) {
-            if (str_properties.find(p) == str_properties.end()) {
-              consistent = false;
-              break;
+          if (typeid(*formula) == typeid(UnaryNode)) {
+            auto unary = dynamic_cast<UnaryNode *>(formula);
+            if (unary->getOperator() == UnaryOperator::NOT) {
+              auto child = unary->getChild();
+              if (typeid(*child) == typeid(AtomNode)) {
+                auto atom = dynamic_cast<AtomNode *>(child);
+                if (!atom->IsConst()) {
+                  if (str_properties.count(atom->GetName()) != 0) {
+                    consistent = false;
+                    break;
+                  }
+                }
+              }
             }
           }
         }
