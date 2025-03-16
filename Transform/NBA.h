@@ -91,23 +91,23 @@ public:
                     left_in = true;
                     break;
                   }
-                  if (left_in) {
-                    for (auto next_state : states) {
-                      bool flag = true;
-                      for (auto next_formula : next_state) {
-                        if (next_formula->hash() == binary_hash) {
-                          flag = false;
-                          break;
-                        }
-                      }
-                      if (flag) {
-                        transitions[state].insert(next_state);
+                }
+                if (left_in) {
+                  for (auto next_state : states) {
+                    bool flag = true;
+                    for (auto next_formula : next_state) {
+                      if (next_formula->hash() == binary_hash) {
+                        flag = false;
+                        break;
                       }
                     }
-                  } else {
-                    for (auto next_state : states) {
+                    if (flag) {
                       transitions[state].insert(next_state);
                     }
+                  }
+                } else {
+                  for (auto next_state : states) {
+                    transitions[state].insert(next_state);
                   }
                 }
               }
