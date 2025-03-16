@@ -20,6 +20,7 @@ private:
   std::map<int, std::set<int>> state_properties;
 
 public:
+  friend class Product;
   TSParser(const std::string &file_path) {
     freopen(file_path.c_str(), "r", stdin);
     std::string line;

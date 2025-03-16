@@ -32,6 +32,8 @@ private:
   NBAStates final_states;
 
 public:
+  friend class Product;
+  
   NBA(const GNBA &GNBA);
 
   void print();
