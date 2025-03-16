@@ -23,7 +23,9 @@ private:
 
 public:
   Product(TSParser &ts_parser, NBA &nba, Node *root_formula);
+  // If it holds, return true; otherwise, return false.
   bool Check();
+
   void check_hold() {
     for (auto i : formula_hold) {
       std::cout << i.first.first << " ";

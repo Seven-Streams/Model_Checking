@@ -199,6 +199,6 @@ bool Product::Check() {
     }
     reachable_cycle(init, R);
   }
-  return cycle_found;
+  return !cycle_found;
 }
 } // namespace grammar
