@@ -68,7 +68,7 @@ void BuildClosure(Node *node, std::set<Node *> &closure,
     if (hash.find(unary->hash()) == hash.end()) {
       closure.insert(unary);
       hash.insert(unary->hash());
-      auto opposite = new UnaryNode(unary->getChild(), UnaryOperator::NOT);
+      auto opposite = new UnaryNode(unary, UnaryOperator::NOT);
       closure.insert(opposite);
       hash.insert(opposite->hash());
     }

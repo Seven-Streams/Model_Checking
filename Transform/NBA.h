@@ -112,6 +112,24 @@ public:
                 }
               }
             }
+            if (typeid(*child) == typeid(UnaryNode)) {
+              UnaryNode *child_unary = dynamic_cast<UnaryNode *>(child);
+              if (child_unary->getOperator() == UnaryOperator::NEXT) {
+                unsigned long long child_hash = child_unary->getChild()->hash();
+                for (auto next_state : states) {
+                  bool flag = true;
+                  for (auto next_formula : next_state) {
+                    if (child_hash == next_formula->hash()) {
+                      flag = false;
+                      break;
+                    }
+                  }
+                  if (flag) {
+                    transitions[state].insert(next_state);
+                  }
+                }
+              }
+            }
           }
         }
         // \phi_1 U \phi_2 \in B -> \phi_2 \in B or \phi_1 \in B and
