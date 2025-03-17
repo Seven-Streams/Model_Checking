@@ -10,6 +10,8 @@ namespace grammar {
 // The input should be the top formula.
 std::pair<Node *, bool> Simplify(Node *node);
 
+Node* Reverse(Node *node);
+
 // This function should be called after Simplify.
 // It will change the order of conjunctions to keep the unique representation.
 // The return value is the set of all atomic propositions.

@@ -92,4 +92,14 @@ std::pair<Node *, bool> Simplify(Node *node) {
   }
   throw std::runtime_error("Unknown node type");
 }
+Node *Reverse(Node *node) {
+  if (typeid(*node) == typeid(UnaryNode)) {
+    auto unary = dynamic_cast<UnaryNode *>(node);
+    if (unary->getOperator() == UnaryOperator::NOT) {
+      return unary->getChild();
+    }
+  }
+  UnaryNode *notNode = new UnaryNode(node, UnaryOperator::NOT);
+  return notNode;
+}
 } // namespace grammar

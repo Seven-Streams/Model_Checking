@@ -29,6 +29,7 @@ int main() {
         break;
       }
     }
+    output = grammar::Reverse(output);
     std::set<std::string> ap;
     std::set<grammar::Node *> closure;
     std::set<unsigned long long> hashs;
@@ -40,6 +41,7 @@ int main() {
     grammar::GNBA gnba(element_set, output, pairs);
     grammar::NBA nba(gnba);
     grammar::Product product(ts_parser, nba, output);
+    // product.PrintAllTransitions();
     std::cout << product.Check() << std::endl;
   }
   for (int i = 0; i < partial_formula; i++) {
@@ -64,6 +66,8 @@ int main() {
         break;
       }
     }
+    output = grammar::Reverse(output);
+    // output->print();
     std::set<std::string> ap;
     std::set<grammar::Node *> closure;
     std::set<unsigned long long> hashs;
@@ -74,11 +78,10 @@ int main() {
     auto element_set = grammar::GetElementSet(closure, pairs);
     grammar::GNBA gnba(element_set, output, pairs);
     grammar::NBA nba(gnba);
-    nba.print();
+    // nba.print();
     grammar::TSParser new_parser(ts_parser, state_id);
     grammar::Product product(new_parser, nba, output);
-    product.PrintInit();
-    product.PrintAllTransitions();
+    // product.PrintAllTransitions();
     std::cout << product.Check() << std::endl;
   }
   fclose(stdin);

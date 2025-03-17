@@ -17,41 +17,12 @@ Product::Product(TSParser &ts_parser, NBA &nba, Node *_root_formula) {
     // Check the consistency of the properties between the TS state and the
     // NBA state.
     for (auto nba_state : nba.states) {
-      bool consistent = true;
-      for (auto p : nba_state.first) {
-        if (typeid(*p) == typeid(AtomNode)) {
-          auto atom = dynamic_cast<AtomNode *>(p);
-          if (!atom->IsConst()) {
-            if (str_properties.count(atom->GetName()) == 0) {
-              consistent = false;
-              break;
-            }
-          }
-        }
-        if (typeid(*p) == typeid(UnaryNode)) {
-          auto unary = dynamic_cast<UnaryNode *>(p);
-          if (unary->getOperator() == UnaryOperator::NOT) {
-            auto child = unary->getChild();
-            if (typeid(*child) == typeid(AtomNode)) {
-              auto atom = dynamic_cast<AtomNode *>(child);
-              if (!atom->IsConst()) {
-                if (str_properties.count(atom->GetName()) != 0) {
-                  consistent = false;
-                  break;
-                }
-              }
-            }
-          }
-        }
+      if (root_hash == nba_state.first.back()->hash()) {
+        formula_hold[ProductState(i, nba_state)] = true;
+      } else {
+        formula_hold[ProductState(i, nba_state)] = false;
       }
-      if (consistent) {
-        if (root_hash == nba_state.first.back()->hash()) {
-          formula_hold[ProductState(i, nba_state)] = true;
-        } else {
-          formula_hold[ProductState(i, nba_state)] = false;
-        }
-        states[i].insert(nba_state);
-      }
+      states[i].insert(nba_state);
     }
   }
 
@@ -60,12 +31,44 @@ Product::Product(TSParser &ts_parser, NBA &nba, Node *_root_formula) {
   for (auto t : ts_parser.transitions) {
     int from = t.first;
     for (auto des_pair : t.second) {
+      auto int_properties = ts_parser.state_properties[des_pair.second];
+      std::set<std::string> str_properties;
+      for (auto p : int_properties) {
+        str_properties.insert(ts_parser.properties[p]);
+      }
       int des = des_pair.second;
       // Check the transitions in NBA.
       for (auto from_nba_state : states[from]) {
         for (auto des_nba_state : states[des]) {
           std::set<NBAState> from_nba_trans = nba.transitions[from_nba_state];
-          if (from_nba_trans.find(des_nba_state) != from_nba_trans.end()) {
+          bool consistent = true;
+          for (auto formula : des_nba_state.first) {
+            if (typeid(*formula) == typeid(AtomNode)) {
+              auto atom = dynamic_cast<AtomNode *>(formula);
+              if (!atom->IsConst()) {
+                if (str_properties.count(atom->GetName()) == 0) {
+                  consistent = false;
+                  break;
+                }
+              }
+            }
+            if (typeid(*formula) == typeid(UnaryNode)) {
+              auto unary = dynamic_cast<UnaryNode *>(formula);
+              if (unary->getOperator() == UnaryOperator::NOT) {
+                auto child = unary->getChild();
+                if (typeid(*child) == typeid(AtomNode)) {
+                  auto atom = dynamic_cast<AtomNode *>(child);
+                  if (!atom->IsConst()) {
+                    if (str_properties.count(atom->GetName()) != 0) {
+                      consistent = false;
+                      break;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          if (consistent) {
             // If the transition is both valid in TS and NBA, then add it to
             // the product.
             if (transitions.find(ProductState(from, from_nba_state)) ==
@@ -93,37 +96,67 @@ Product::Product(TSParser &ts_parser, NBA &nba, Node *_root_formula) {
     // Check all the initial states of NBA.
     for (auto nba_init_state : nba.init_states) {
       auto nba_trans = nba.transitions[nba_init_state];
-      for (auto nba_trans_des : nba_trans) {
-        bool consistent = true;
-        // Check if the state can be reached by the initial state of TS.
-        for (auto formula : nba_trans_des.first) {
-          if (typeid(*formula) == typeid(AtomNode)) {
-            auto atom = dynamic_cast<AtomNode *>(formula);
-            if (!atom->IsConst()) {
-              if (str_properties.count(atom->GetName()) == 0) {
-                consistent = false;
-                break;
-              }
+      bool consistent = true;
+      // Check if the state can be reached by the initial state of TS.
+      for (auto formula : nba_init_state.first) {
+        if (typeid(*formula) == typeid(AtomNode)) {
+          auto atom = dynamic_cast<AtomNode *>(formula);
+          if (!atom->IsConst()) {
+            if (str_properties.count(atom->GetName()) == 0) {
+              consistent = false;
+              break;
             }
           }
-          if (typeid(*formula) == typeid(UnaryNode)) {
-            auto unary = dynamic_cast<UnaryNode *>(formula);
-            if (unary->getOperator() == UnaryOperator::NOT) {
-              auto child = unary->getChild();
-              if (typeid(*child) == typeid(AtomNode)) {
-                auto atom = dynamic_cast<AtomNode *>(child);
-                if (!atom->IsConst()) {
-                  if (str_properties.count(atom->GetName()) != 0) {
-                    consistent = false;
-                    break;
-                  }
+        }
+        if (typeid(*formula) == typeid(UnaryNode)) {
+          auto unary = dynamic_cast<UnaryNode *>(formula);
+          if (unary->getOperator() == UnaryOperator::NOT) {
+            auto child = unary->getChild();
+            if (typeid(*child) == typeid(AtomNode)) {
+              auto atom = dynamic_cast<AtomNode *>(child);
+              if (!atom->IsConst()) {
+                if (str_properties.count(atom->GetName()) != 0) {
+                  consistent = false;
+                  break;
                 }
               }
             }
           }
         }
-        if (consistent) {
+      }
+      if (consistent) {
+        for (auto nba_trans_des : nba_trans) {
+          bool consistent_2 = true;
+          // Check if the state can be reached by the initial state of TS.
+          for (auto formula : nba_trans_des.first) {
+            if (typeid(*formula) == typeid(AtomNode)) {
+              auto atom = dynamic_cast<AtomNode *>(formula);
+              if (!atom->IsConst()) {
+                if (str_properties.count(atom->GetName()) == 0) {
+                  consistent_2 = false;
+                  break;
+                }
+              }
+            }
+            if (typeid(*formula) == typeid(UnaryNode)) {
+              auto unary = dynamic_cast<UnaryNode *>(formula);
+              if (unary->getOperator() == UnaryOperator::NOT) {
+                auto child = unary->getChild();
+                if (typeid(*child) == typeid(AtomNode)) {
+                  auto atom = dynamic_cast<AtomNode *>(child);
+                  if (!atom->IsConst()) {
+                    if (str_properties.count(atom->GetName()) != 0) {
+                      consistent_2 = false;
+                      break;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          if (consistent_2) {
           init_states.insert(std::pair(start, nba_trans_des));
+          }
         }
       }
     }
@@ -151,12 +184,6 @@ bool Product::reachable_cycle(ProductState s, std::set<ProductState> &R) {
       U.pop();
     }
     if (!formula_hold[current]) {
-      std::cout << "Now At checking cycle " << current.first << " ";
-      for (auto j : current.second.first) {
-        j->print();
-        std::cout << " ";
-      }
-      std::cout << current.second.second << std::endl;
       cycle_found = cycle_check(current);
     }
   }
@@ -174,12 +201,6 @@ bool Product::cycle_check(ProductState s) {
       break;
     }
     ProductState current = V.top();
-    std::cout << "Now At inner" << current.first << " ";
-    for (auto j : current.second.first) {
-      j->print();
-      std::cout << " ";
-    }
-    std::cout << current.second.second << std::endl;
     if (transitions[current].find(s) != transitions[current].end()) {
       cycle_found = true;
       break;
@@ -203,7 +224,6 @@ bool Product::cycle_check(ProductState s) {
 bool Product::Check() {
   std::set<ProductState> R;
   bool cycle_found = false;
-  assert(init_states.size() != 0);
   for (auto init : init_states) {
     if (cycle_found) {
       break;
