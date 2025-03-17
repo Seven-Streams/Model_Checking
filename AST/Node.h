@@ -48,19 +48,21 @@ public:
   void print() const override {
     switch (op) {
     case UnaryOperator::NOT:
-      std::cout << " __NOT__ ";
+      std::cout << "!";
       break;
     case UnaryOperator::NEXT:
-      std::cout << " __NEXT__ ";
+      std::cout << "X";
       break;
     case UnaryOperator::EVENTUALLY:
-      std::cout << " __EVENTUALLY__ ";
+      std::cout << "F";
       break;
     case UnaryOperator::ALWAYS:
-      std::cout << " __ALWAYS__ ";
+      std::cout << "G";
       break;
     }
+    std::cout << "(";
     child->print();
+    std::cout << ")";
     return;
   }
   std::string to_string() const override {
@@ -118,7 +120,7 @@ public:
 
   void print() const override {
     if (is_const) {
-      std::cout << (value ? " __TRUE__ " : " __FALSE__ ");
+      std::cout << (value ? "true" : "false");
     } else {
       std::cout << name;
     }
@@ -163,22 +165,26 @@ public:
   BinaryOperator getOperator() const { return op; }
 
   void print() const override {
+    std::cout << "(";
     left->print();
+    std::cout << ")";
     switch (op) {
     case BinaryOperator::AND:
-      std::cout << " __AND__ ";
+      std::cout << "/\\";
       break;
     case BinaryOperator::OR:
-      std::cout << " __OR__ ";
+      std::cout << "\\/";
       break;
     case BinaryOperator::IMPLIES:
-      std::cout << " __IMPLIES__ ";
+      std::cout << "->";
       break;
     case BinaryOperator::UNTIL:
-      std::cout << " __UNTIL__ ";
+      std::cout << "U";
       break;
     }
+    std::cout << "(";
     right->print();
+    std::cout << ")";
     return;
   }
 
