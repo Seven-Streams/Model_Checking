@@ -29,7 +29,7 @@ GNBA::GNBA(const States &input, Node *root_formula,
               flag = true;
               break;
             }
-            // \phi_1 U \phi_2 \in B.
+            // \phi_1 U \phi_2 \in B.F
             if (until_hash == subformula->hash()) {
               flag = false;
             }

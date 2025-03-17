@@ -1,4 +1,5 @@
 #include "MCInclude.h"
+#include "Translate/TSParser.h"
 #include <cassert>
 using namespace antlr4;
 
@@ -73,12 +74,12 @@ int main() {
     auto element_set = grammar::GetElementSet(closure, pairs);
     grammar::GNBA gnba(element_set, output, pairs);
     grammar::NBA nba(gnba);
-    grammar::Product product(ts_parser, nba, output);
     nba.print();
+    grammar::TSParser new_parser(ts_parser, state_id);
+    grammar::Product product(new_parser, nba, output);
     product.PrintInit();
     product.PrintAllTransitions();
-    product.check_hold();
-    std::cout << product.Check(state_id) << std::endl;
+    std::cout << product.Check() << std::endl;
   }
   fclose(stdin);
   return 0;

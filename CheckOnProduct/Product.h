@@ -72,6 +72,5 @@ public:
     }
   }
 
-  bool Check(int state);
 };
 } // namespace grammar

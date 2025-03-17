@@ -33,7 +33,7 @@ The LTL formulas input should be in a file named `input.txt`. The formulas allow
 
 Moreover, the atom properties should be lowercase letters or words.
 
-the first line of the file should be two numbers: how many formulas to check the persistence , and how many formulas to check on the certain state in the transition system.
+the first line of the file should be two numbers: how many formulas to check the persistence , and how many formulas to check with the certain init state in the transition system.
 
 then, followed by several lines of formulas, and several lines of numbers and a formulas. Here is an example.
 
@@ -125,7 +125,3 @@ Then, we build the product system.
 ### Check the persistence
 
 We used an on-the-fly algorithm to check the persistence, which is consisted of two layers of DFS.
-
-### Check the state
-
-We check all the reachable states in the product system corresponding to the transition system, and output whether it's true or false.

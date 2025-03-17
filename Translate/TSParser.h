@@ -21,6 +21,15 @@ private:
 
 public:
   friend class Product;
+  TSParser(const TSParser &ts_parser, const int &init_state) {
+    state_num = ts_parser.state_num;
+    trans_num = ts_parser.trans_num;
+    actions = ts_parser.actions;
+    properties = ts_parser.properties;
+    init_states.insert(init_state);
+    transitions = ts_parser.transitions;
+    state_properties = ts_parser.state_properties;
+  }
   TSParser(const std::string &file_path) {
     freopen(file_path.c_str(), "r", stdin);
     std::string line;

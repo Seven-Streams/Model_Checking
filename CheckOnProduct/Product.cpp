@@ -216,30 +216,4 @@ bool Product::Check() {
   return !cycle_found;
 }
 
-bool Product::Check(int state) {
-  unsigned long long root_hash = root_formula->hash();
-  std::set<ProductState> R;
-  std::queue<ProductState> Q;
-  for (auto init : init_states) {
-    R.insert(init);
-    Q.push(init);
-  }
-  while (!Q.empty()) {
-    ProductState current = Q.front();
-    Q.pop();
-    if (current.first == state) {
-      unsigned long long hash = current.second.first.back()->hash();
-      if (hash != root_hash) {
-        return false;
-      }
-    }
-    for (auto next : transitions[current]) {
-      if (R.find(next) == R.end()) {
-        R.insert(next);
-        Q.push(next);
-      }
-    }
-  }
-  return true;
-}
 } // namespace grammar
