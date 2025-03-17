@@ -39,10 +39,6 @@ int main() {
     grammar::GNBA gnba(element_set, output, pairs);
     grammar::NBA nba(gnba);
     grammar::Product product(ts_parser, nba, output);
-    nba.print();
-    product.PrintInit();
-    product.PrintAllTransitions();
-    product.check_hold();
     std::cout << product.Check() << std::endl;
   }
   for (int i = 0; i < partial_formula; i++) {
@@ -78,6 +74,10 @@ int main() {
     grammar::GNBA gnba(element_set, output, pairs);
     grammar::NBA nba(gnba);
     grammar::Product product(ts_parser, nba, output);
+    nba.print();
+    product.PrintInit();
+    product.PrintAllTransitions();
+    product.check_hold();
     std::cout << product.Check(state_id) << std::endl;
   }
   fclose(stdin);
