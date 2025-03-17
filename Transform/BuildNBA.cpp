@@ -210,11 +210,13 @@ void GNBA::print() const {
 }
 
 NBA::NBA(GNBA GNBA) {
-  if(GNBA.final_states.empty()) {
-    GNBA.final_states.push_back(std::vector<std::vector<Node*>>());
+  if (GNBA.final_states.empty()) {
+    GNBA.final_states.push_back(std::vector<std::vector<Node *>>());
   }
   int final_states_size = GNBA.final_states.size();
-
+  if(final_states_size == 1) {
+    GNBA.final_states[0].clear();
+  }
   // Add all the states from GNBA to NBA.
   for (int i = 0; i < final_states_size; i++) {
     for (auto state : GNBA.states) {
@@ -283,12 +285,12 @@ void NBA::print() {
   }
   std::cout << "transitions:" << std::endl;
   for (auto transition : transitions) {
-    for (auto state : transition.first.first) {
-      state->print();
-      std::cout << " ";
-    }
-    std::cout << " " << transition.first.second << " -> ";
     for (auto state : transition.second) {
+      for (auto from_state : transition.first.first) {
+        from_state->print();
+        std::cout << " ";
+      }
+      std::cout << " " << transition.first.second << " -> " << std::endl;
       for (auto formula : state.first) {
         formula->print();
         std::cout << " ";

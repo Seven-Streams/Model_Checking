@@ -16,7 +16,7 @@ private:
   std::set<ProductState> init_states;
   std::map<ProductState, bool> formula_hold;
   std::map<ProductState, std::set<ProductState>> transitions;
-  Node* root_formula;
+  Node *root_formula;
 
   bool cycle_check(ProductState s);
 
@@ -37,6 +37,39 @@ public:
       std::cout << i.first.second.second << ":" << " " << i.second << std::endl;
     }
     return;
+  }
+
+  void PrintInit() {
+    std::cout << "Init States:" << std::endl;
+    for (auto i : init_states) {
+      std::cout << i.first << " ";
+      for (auto j : i.second.first) {
+        j->print();
+        std::cout << " ";
+      }
+      std::cout << i.second.second << std::endl;
+    }
+  }
+
+  void PrintAllTransitions() {
+    std::cout << "All Transitions:" << std::endl;
+    for (auto t : transitions) {
+      for (auto des : t.second) {
+        std::cout << t.first.first << " ";
+        for (auto j : t.first.second.first) {
+          j->print();
+          std::cout << " ";
+        }
+        std::cout << t.first.second.second << " -> " << std::endl;
+        std::cout << des.first << " ";
+        for (auto j : des.second.first) {
+          j->print();
+          std::cout << " ";
+        }
+        std::cout << des.second.second << std::endl;
+      }
+      std::cout << std::endl;
+    }
   }
 
   bool Check(int state);

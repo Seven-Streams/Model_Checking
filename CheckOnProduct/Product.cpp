@@ -139,6 +139,12 @@ bool Product::reachable_cycle(ProductState s, std::set<ProductState> &R) {
       break;
     }
     ProductState current = U.top();
+    std::cout << "Now At " << current.first << " ";
+    for (auto j : current.second.first) {
+      j->print();
+      std::cout << " ";
+    }
+    std::cout << current.second.second << std::endl;
     bool all_in_R = true;
     for (auto next : transitions[current]) {
       if (R.find(next) == R.end()) {
@@ -168,6 +174,12 @@ bool Product::cycle_check(ProductState s) {
       break;
     }
     ProductState current = V.top();
+    std::cout << "Now At " << current.first << " ";
+    for (auto j : current.second.first) {
+      j->print();
+      std::cout << " ";
+    }
+    std::cout << current.second.second << std::endl;
     if (transitions[current].find(s) != transitions[current].end()) {
       cycle_found = true;
       break;
