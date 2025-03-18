@@ -4,7 +4,5 @@ antlr-4.13.2-complete.jar
 /antlr4
 /.cache
 /grammar/.antlr
-input.txt
 ModelChecker
-ts.txt
 /.vscode
