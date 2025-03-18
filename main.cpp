@@ -1,7 +1,6 @@
 #include "MCInclude.h"
 #include "Translate/TSParser.h"
 #include <cassert>
-using namespace antlr4;
 
 int main() {
   int global_formula, partial_formula;
@@ -13,11 +12,11 @@ int main() {
   for (int i = 0; i < global_formula; i++) {
     std::string formula;
     getline(file, formula);
-    ANTLRInputStream input(formula);
+    antlr4::ANTLRInputStream input(formula);
     LTLLexer lexer(&input);
-    CommonTokenStream tokens(&lexer);
+    antlr4::CommonTokenStream tokens(&lexer);
     LTLParser parser(&tokens);
-    tree::ParseTree *tree = parser.formula();
+    antlr4::tree::ParseTree *tree = parser.formula();
     grammar::Bkornblume visitor;
     visitor.visit(tree);
     grammar::Node *output = std::any_cast<grammar::Node *>(visitor.visit(tree));
@@ -40,8 +39,10 @@ int main() {
     auto element_set = grammar::GetElementSet(closure, pairs);
     grammar::GNBA gnba(element_set, output, pairs);
     grammar::NBA nba(gnba);
+    // nba.print();
     grammar::Product product(ts_parser, nba, output);
-    // product.PrintAllTransitions();
+    product.PrintAllTransitions();
+    product.PrintInit();
     std::cout << product.Check() << std::endl;
   }
   for (int i = 0; i < partial_formula; i++) {
@@ -50,11 +51,11 @@ int main() {
     file >> state_id;
     file.ignore();
     std::getline(file, formula);
-    ANTLRInputStream input(formula);
+    antlr4::ANTLRInputStream input(formula);
     LTLLexer lexer(&input);
-    CommonTokenStream tokens(&lexer);
+    antlr4::CommonTokenStream tokens(&lexer);
     LTLParser parser(&tokens);
-    tree::ParseTree *tree = parser.formula();
+    antlr4::tree::ParseTree *tree = parser.formula();
     grammar::Bkornblume visitor;
     visitor.visit(tree);
     grammar::Node *output = std::any_cast<grammar::Node *>(visitor.visit(tree));

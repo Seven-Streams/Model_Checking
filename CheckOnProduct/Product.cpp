@@ -18,9 +18,9 @@ Product::Product(TSParser &ts_parser, NBA &nba, Node *_root_formula) {
     // NBA state.
     for (auto nba_state : nba.states) {
       if (root_hash == nba_state.first.back()->hash()) {
-        formula_hold[ProductState(i, nba_state)] = true;
-      } else {
         formula_hold[ProductState(i, nba_state)] = false;
+      } else {
+        formula_hold[ProductState(i, nba_state)] = true;
       }
       states[i].insert(nba_state);
     }
@@ -39,8 +39,8 @@ Product::Product(TSParser &ts_parser, NBA &nba, Node *_root_formula) {
       int des = des_pair.second;
       // Check the transitions in NBA.
       for (auto from_nba_state : states[from]) {
-        for (auto des_nba_state : states[des]) {
           std::set<NBAState> from_nba_trans = nba.transitions[from_nba_state];
+          for (auto des_nba_state : from_nba_trans) {
           bool consistent = true;
           for (auto formula : des_nba_state.first) {
             if (typeid(*formula) == typeid(AtomNode)) {
@@ -155,7 +155,7 @@ Product::Product(TSParser &ts_parser, NBA &nba, Node *_root_formula) {
             }
           }
           if (consistent_2) {
-          init_states.insert(std::pair(start, nba_trans_des));
+            init_states.insert(std::pair(start, nba_trans_des));
           }
         }
       }
@@ -184,7 +184,26 @@ bool Product::reachable_cycle(ProductState s, std::set<ProductState> &R) {
       U.pop();
     }
     if (!formula_hold[current]) {
+      std::cout << "Violation found: " << std::endl;
+      std::cout << current.first << " ";
+      for (auto formula : current.second.first) {
+        formula->print();
+        std::cout << " ";
+      }
+      std::cout << current.second.second << std::endl;
       cycle_found = cycle_check(current);
+    }
+  }
+  if (cycle_found) {
+    std::cout << "Cycle found: " << std::endl;
+    while (!U.empty()) {
+      std::cout << U.top().first << " ";
+      for (auto formula : U.top().second.first) {
+        formula->print();
+        std::cout << " ";
+      }
+      std::cout << U.top().second.second << std::endl;
+      U.pop();
     }
   }
   return cycle_found;
@@ -216,6 +235,18 @@ bool Product::cycle_check(ProductState s) {
       if (all_in_T) {
         V.pop();
       }
+    }
+  }
+  if (cycle_found) {
+    std::cout << "Cycle found: " << std::endl;
+    while (!V.empty()) {
+      std::cout << V.top().first << " ";
+      for (auto formula : V.top().second.first) {
+        formula->print();
+        std::cout << " ";
+      }
+      std::cout << V.top().second.second << std::endl;
+      V.pop();
     }
   }
   return cycle_found;
