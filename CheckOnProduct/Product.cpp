@@ -1,5 +1,4 @@
 #include "Product.h"
-#include <queue>
 #include <stack>
 namespace grammar {
 Product::Product(TSParser &ts_parser, NBA &nba, Node *_root_formula) {
@@ -17,12 +16,11 @@ Product::Product(TSParser &ts_parser, NBA &nba, Node *_root_formula) {
     // Check the consistency of the properties between the TS state and the
     // NBA state.
     for (auto nba_state : nba.states) {
-      if (root_hash == nba_state.first.back()->hash()) {
-        formula_hold[ProductState(i, nba_state)] = false;
-      } else {
-        formula_hold[ProductState(i, nba_state)] = true;
-      }
       states[i].insert(nba_state);
+      not_finals[ProductState(i, nba_state)] = true;
+    }
+    for(auto final_state: nba.final_states) {
+      not_finals[ProductState(i, final_state)] = false;
     }
   }
 
@@ -183,27 +181,8 @@ bool Product::reachable_cycle(ProductState s, std::set<ProductState> &R) {
     if (all_in_R) {
       U.pop();
     }
-    if (!formula_hold[current]) {
-      std::cout << "Violation found: " << std::endl;
-      std::cout << current.first << " ";
-      for (auto formula : current.second.first) {
-        formula->print();
-        std::cout << " ";
-      }
-      std::cout << current.second.second << std::endl;
+    if (!not_finals[current]) {
       cycle_found = cycle_check(current);
-    }
-  }
-  if (cycle_found) {
-    std::cout << "Cycle found: " << std::endl;
-    while (!U.empty()) {
-      std::cout << U.top().first << " ";
-      for (auto formula : U.top().second.first) {
-        formula->print();
-        std::cout << " ";
-      }
-      std::cout << U.top().second.second << std::endl;
-      U.pop();
     }
   }
   return cycle_found;
@@ -235,18 +214,6 @@ bool Product::cycle_check(ProductState s) {
       if (all_in_T) {
         V.pop();
       }
-    }
-  }
-  if (cycle_found) {
-    std::cout << "Cycle found: " << std::endl;
-    while (!V.empty()) {
-      std::cout << V.top().first << " ";
-      for (auto formula : V.top().second.first) {
-        formula->print();
-        std::cout << " ";
-      }
-      std::cout << V.top().second.second << std::endl;
-      V.pop();
     }
   }
   return cycle_found;

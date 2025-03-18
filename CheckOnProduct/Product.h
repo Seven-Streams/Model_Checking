@@ -14,7 +14,7 @@ private:
 
   std::map<int, std::set<NBAState>> states;
   std::set<ProductState> init_states;
-  std::map<ProductState, bool> formula_hold;
+  std::map<ProductState, bool> not_finals;
   std::map<ProductState, std::set<ProductState>> transitions;
   Node *root_formula;
 
@@ -28,7 +28,7 @@ public:
   bool Check();
 
   void check_hold() {
-    for (auto i : formula_hold) {
+    for (auto i : not_finals) {
       std::cout << i.first.first << " ";
       for (auto j : i.first.second.first) {
         j->print();

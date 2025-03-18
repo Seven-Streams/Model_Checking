@@ -39,10 +39,7 @@ int main() {
     auto element_set = grammar::GetElementSet(closure, pairs);
     grammar::GNBA gnba(element_set, output, pairs);
     grammar::NBA nba(gnba);
-    // nba.print();
     grammar::Product product(ts_parser, nba, output);
-    product.PrintAllTransitions();
-    product.PrintInit();
     std::cout << product.Check() << std::endl;
   }
   for (int i = 0; i < partial_formula; i++) {
@@ -79,10 +76,8 @@ int main() {
     auto element_set = grammar::GetElementSet(closure, pairs);
     grammar::GNBA gnba(element_set, output, pairs);
     grammar::NBA nba(gnba);
-    // nba.print();
     grammar::TSParser new_parser(ts_parser, state_id);
     grammar::Product product(new_parser, nba, output);
-    // product.PrintAllTransitions();
     std::cout << product.Check() << std::endl;
   }
   fclose(stdin);

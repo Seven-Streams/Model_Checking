@@ -214,10 +214,8 @@ NBA::NBA(GNBA GNBA) {
     GNBA.final_states.push_back(std::vector<std::vector<Node *>>());
   }
   int final_states_size = GNBA.final_states.size();
-  if(final_states_size == 1) {
-    GNBA.final_states[0].clear();
-  }
   // Add all the states from GNBA to NBA.
+
   for (int i = 0; i < final_states_size; i++) {
     for (auto state : GNBA.states) {
       NBAState nba_state = std::make_pair(state, i);
@@ -242,10 +240,12 @@ NBA::NBA(GNBA GNBA) {
     for (auto transition : GNBA.transitions) {
       NBAState from = std::pair(transition.first, i);
       bool flag = false;
-      for (auto final_i : GNBA.final_states[i]) {
-        if (transition.second.find(final_i) != transition.second.end()) {
-          flag = true;
-          break;
+      if (final_states_size != 1) {
+        for (auto final_i : GNBA.final_states[i]) {
+          if (transition.second.find(final_i) != transition.second.end()) {
+            flag = true;
+            break;
+          }
         }
       }
       if (flag) {
