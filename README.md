@@ -106,22 +106,17 @@ For each formula, it will output a boolean. `1` represents yes and `0` denotes n
 
 We parse the TS simply in C++.
 
-We parse LTL formulas with antlr4. Then, we build an AST with a visitor.
+We parse LTL formulas with antlr4. Then, we build an AST with a visitor.  A formula will be stored as a tree. The relative classes are in `AST/Node.h`.
 
-After that, we try to simplify the formulas, and turned formulas into the formulas composed of: atom properties, `true`, `false`, `!`, `/\`, `U`.
+After that, we try to simplify the formulas, and turned formulas into the formulas composed of: atom properties, `true`, `false`, `!`, `/\`, `U`. The relative implementations are in `Transform/Simplify.cpp`.
 
 ### Build the Product System
 
-First, we visit the AST to build the closure.
+First, we visit the AST to build the closure, which is implemented with a recursive method.
 
-Then, we sort all the formulas in the clousure by the lengths of formulas. Then, we build the elementary sets by dfs the closure, according to the lengths of formulas.
+Then, we sort all the formulas in the clousure by the lengths of formulas. Then, we build the elementary sets by dfs the closure, according to the lengths of formulas, which can easily ensure
+the consistent of the elementary set. The implementations are in `Transform/BuildElementarySet.cpp`.
 
-Then, we build the GNBA which accepts the input formula.
+Then, we build the GNBA which accepts the negation of the input formula, and transform the GNBA to its equivalent NBA. The implementations are in `Transform/BuildNBA.cpp`.
 
-Then, we transform the GNBA to its equivalent NBA.
-
-Then, we build the product system.
-
-### Check the persistence
-
-We used an on-the-fly algorithm to check the persistence, which is consisted of two layers of DFS.
+Then, we build the product system, and run a nested dfs. Here, we used an on-the-fly algorithm to check the persistence, which is consisted of two layers of DFS. The realization is in `CheckOnProduct/Product.cpp`.
