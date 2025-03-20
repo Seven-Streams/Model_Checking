@@ -1,6 +1,7 @@
 # Model Checker
 
 This is a checker for LTL formulas on a transition system, implemented with C++.
+The program is based on antlr4. `antlr4-runtime` is required.
 
 ## Input Format
 
